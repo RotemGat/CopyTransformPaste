@@ -100,12 +100,13 @@
     /* Sections */
     h2{
       font-family: "Space Grotesk", Inter, system-ui, sans-serif;
-      margin: 26px 0 12px;
-      font-size: 18px;
-      letter-spacing: 0.10em;
+      margin: 30px 0 14px;
+      font-size: 26px;            /* was 18px */
+      letter-spacing: 0.06em;     /* was 0.10em (too spaced for big text) */
       text-transform: uppercase;
-      color: rgba(0,0,0,0.72);
+      color: rgba(0,0,0,0.78);
     }
+
 
     .card{
       background: var(--panel);
@@ -256,7 +257,7 @@
       display:flex;
       flex-wrap:wrap;
       gap: var(--gap);
-      align-items: flex-start;
+      align-items: stretch; /* key: equal top alignment */
     }
     .mesh-fig, .orbit-col{
       flex: 1 1 0;
@@ -265,6 +266,13 @@
       flex-direction: column;
       gap: 6px;
     }
+    .figure{ /* already exists, keep it; add: */
+      height: auto;
+    }
+    .orbit-col .video-wrapper{
+      margin-top: 0; /* ensure no drift */
+    }
+
     .mesh-caption{
       font-size: 12px;
       color: var(--soft);
@@ -367,7 +375,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label">Final result (orbit)</div>
+              <div class="video-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/oyster.mp4"></video>
               </div>
@@ -385,7 +393,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label">Final result (orbit)</div>
+              <div class="video-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/stinky_pete.mp4"></video>
               </div>
@@ -403,7 +411,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label">Final result (orbit)</div>
+              <div class="video-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/hotdog.mp4"></video>
               </div>
@@ -421,7 +429,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label">Final result (orbit)</div>
+              <div class="video-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/necklace.mp4"></video>
               </div>
