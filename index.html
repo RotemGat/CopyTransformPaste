@@ -18,7 +18,6 @@
 
       --bg: #ffffff;
       --panel: #ffffff;
-      --panel2: #ffffff;
       --border: rgba(0,0,0,0.10);
 
       --text: rgba(0,0,0,0.90);
@@ -101,12 +100,11 @@
     h2{
       font-family: "Space Grotesk", Inter, system-ui, sans-serif;
       margin: 30px 0 14px;
-      font-size: 26px;            /* was 18px */
-      letter-spacing: 0.06em;     /* was 0.10em (too spaced for big text) */
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.78);
+      font-size: 24px;           /* bigger headline */
+      letter-spacing: 0.02em;
+      text-transform: none;      /* less tiny / more readable */
+      color: rgba(0,0,0,0.82);
     }
-
 
     .card{
       background: var(--panel);
@@ -114,6 +112,20 @@
       border-radius: var(--radius);
       padding: 14px;
       box-shadow: var(--shadow);
+    }
+
+    /* Abstract special gradient background like TRELLIS */
+    .card-abstract{
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      background:
+        radial-gradient(800px 420px at 10% 0%, rgba(167, 139, 250, 0.22), transparent 60%),
+        radial-gradient(800px 420px at 90% 0%, rgba(34, 211, 238, 0.18), transparent 60%),
+        radial-gradient(900px 520px at 60% 120%, rgba(251, 146, 60, 0.14), transparent 65%),
+        rgba(255,255,255,0.92);
+      backdrop-filter: blur(4px);
     }
 
     .figure{
@@ -230,7 +242,7 @@
       to{ opacity: 1.0; transform: translateY(0px); }
     }
 
-    /* Optimization layout (same as before) */
+    /* Optimization layout */
     .example-row{
       display:flex;
       flex-wrap:wrap;
@@ -252,12 +264,12 @@
       padding-left: 2px;
     }
 
-    /* More results layout */
+    /* More results layout: ensure orbit video aligns with images */
     .result-row{
       display:flex;
       flex-wrap:wrap;
       gap: var(--gap);
-      align-items: stretch; /* key: equal top alignment */
+      align-items: stretch;      /* key fix */
     }
     .mesh-fig, .orbit-col{
       flex: 1 1 0;
@@ -266,13 +278,12 @@
       flex-direction: column;
       gap: 6px;
     }
-    .figure{ /* already exists, keep it; add: */
-      height: auto;
+    .orbit-col{
+      align-self: stretch;       /* key fix */
     }
     .orbit-col .video-wrapper{
-      margin-top: 0; /* ensure no drift */
+      margin-top: 0;
     }
-
     .mesh-caption{
       font-size: 12px;
       color: var(--soft);
@@ -328,7 +339,7 @@
 
     <!-- ABSTRACT -->
     <h2>Abstract</h2>
-    <section class="card">
+    <section class="card-abstract">
       <div class="abstract">
         We study zero-shot 3D alignment of two given meshes, using a text prompt describing their spatial relation---an essential capability for content creation and scene assembly. Earlier approaches primarily rely on geometric alignment procedures, while recent work leverages pretrained 2D diffusion models to model language-conditioned object-object spatial relationships. In contrast, we directly optimize the relative pose at test time, updating translation, rotation, and isotropic scale with CLIP-driven gradients via a differentiable renderer, without training a new model.
         Our framework augments language supervision with geometry-aware objectives: a variant of soft-Iterative Closest Point (ICP) term to encourage surface attachment and a penetration loss to discourage interpenetration. A phased schedule strengthens contact constraints over time, and camera control concentrates the optimization on the interaction region.
@@ -365,7 +376,6 @@
       </div>
 
       <div class="slides" id="opt-slides">
-        <!-- Slide 1 -->
         <div class="slide active" data-title="Prompt: “Oyster with a pearl inside it”">
           <div class="example-row">
             <div class="video-col">
@@ -383,7 +393,6 @@
           </div>
         </div>
 
-        <!-- Slide 2 -->
         <div class="slide" data-title="Prompt: “Man wearing a cowboy hat”">
           <div class="example-row">
             <div class="video-col">
@@ -401,7 +410,6 @@
           </div>
         </div>
 
-        <!-- Slide 3 -->
         <div class="slide" data-title="Prompt: “Hot dog sausage sits inside a bun”">
           <div class="example-row">
             <div class="video-col">
@@ -419,7 +427,6 @@
           </div>
         </div>
 
-        <!-- Slide 4 -->
         <div class="slide" data-title="Prompt: “A stand with a golden necklace”">
           <div class="example-row">
             <div class="video-col">
@@ -436,7 +443,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </section>
 
@@ -455,7 +461,6 @@
       </div>
 
       <div class="slides" id="res-slides">
-        <!-- Pizza -->
         <div class="slide active" data-title="&quot;A pizza cutter cuts a pizza&quot;">
           <div class="result-row">
             <div class="mesh-fig">
@@ -475,7 +480,6 @@
           </div>
         </div>
 
-        <!-- Captain America -->
         <div class="slide" data-title="&quot;Captain America holding a shield&quot;">
           <div class="result-row">
             <div class="mesh-fig">
@@ -495,7 +499,6 @@
           </div>
         </div>
 
-        <!-- Nigiri -->
         <div class="slide" data-title="&quot;Nigiri&quot;">
           <div class="result-row">
             <div class="mesh-fig">
@@ -515,7 +518,6 @@
           </div>
         </div>
 
-        <!-- Toast -->
         <div class="slide" data-title="&quot;Slice of toast on top of a slice of cheese toast&quot;">
           <div class="result-row">
             <div class="mesh-fig">
@@ -535,7 +537,6 @@
           </div>
         </div>
 
-        <!-- Target -->
         <div class="slide" data-title="&quot;A target with an arrow stuck in it&quot;">
           <div class="result-row">
             <div class="mesh-fig">
@@ -547,7 +548,7 @@
               <div class="mesh-caption">Arrow mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Orbit view of aligned pair</div>
+              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/target.mp4"></video>
               </div>
@@ -555,7 +556,6 @@
           </div>
         </div>
 
-        <!-- Pot -->
         <div class="slide" data-title="&quot;A ceramic pot with a half-open lid&quot;">
           <div class="result-row">
             <div class="mesh-fig">
@@ -567,7 +567,7 @@
               <div class="mesh-caption">Lid mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Orbit view of aligned pair</div>
+              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/pot.mp4"></video>
               </div>
@@ -575,7 +575,6 @@
           </div>
         </div>
 
-        <!-- Lipstick -->
         <div class="slide" data-title="&quot;A red lipstick&quot;">
           <div class="result-row">
             <div class="mesh-fig">
@@ -587,7 +586,7 @@
               <div class="mesh-caption">Red lipstick mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Orbit view of aligned pair</div>
+              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/lipstick.mp4"></video>
               </div>
@@ -595,7 +594,6 @@
           </div>
         </div>
 
-        <!-- Ladybug -->
         <div class="slide" data-title="&quot;Ladybug with its shell on top&quot;">
           <div class="result-row">
             <div class="mesh-fig">
@@ -607,7 +605,7 @@
               <div class="mesh-caption">Shell mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Orbit view of aligned pair</div>
+              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/ladybug.mp4"></video>
               </div>
@@ -634,9 +632,7 @@
 
       function pauseSlideVideos(slide) {
         slide.querySelectorAll("video").forEach(v => {
-          // Don't disturb looped orbit if it continues in background? We'll pause to save CPU.
           try { v.pause(); } catch(e) {}
-          // reset process videos to start when returning (optional)
           if (v.hasAttribute("controls")) {
             try { v.currentTime = 0; } catch(e) {}
           }
@@ -645,7 +641,6 @@
 
       function playAutoplayVideos(slide) {
         slide.querySelectorAll("video[autoplay]").forEach(v => {
-          // browsers may block even muted autoplay sometimes; ignore failures.
           const p = v.play();
           if (p && typeof p.catch === "function") p.catch(()=>{});
         });
@@ -669,19 +664,16 @@
       prevBtn.addEventListener("click", () => show(idx - 1));
       nextBtn.addEventListener("click", () => show(idx + 1));
 
-      // init
       titleEl.textContent = slides[0].dataset.title || "";
       counterEl.textContent = "1 / " + slides.length;
       playAutoplayVideos(slides[0]);
 
-      return { show, getIndex: () => idx, count: () => slides.length, root };
+      return { show, getIndex: () => idx, root };
     }
 
     const opt = setupCarousel("opt-carousel", "opt-title", "opt-counter", "opt-prev", "opt-next");
     const res = setupCarousel("res-carousel", "res-title", "res-counter", "res-prev", "res-next");
 
-    // Keyboard navigation:
-    // - Left/Right controls whichever carousel is closest to viewport center.
     function closestCarousel() {
       const carousels = [opt.root, res.root];
       const y = window.innerHeight / 2;
@@ -698,7 +690,6 @@
     document.addEventListener("keydown", (e) => {
       if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
 
-      // avoid stealing arrows when user is interacting with a video timeline etc.
       const tag = (document.activeElement && document.activeElement.tagName) || "";
       if (tag === "INPUT" || tag === "TEXTAREA") return;
 
