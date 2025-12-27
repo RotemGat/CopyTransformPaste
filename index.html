@@ -5,10 +5,10 @@
   <title>COPY-TRANSFORM-PASTE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Fonts -->
+  <!-- Fonts (nicer abstract/captions) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -27,6 +27,8 @@
       --shadow: 0 12px 34px rgba(0,0,0,0.08);
       --shadow2: 0 10px 26px rgba(0,0,0,0.06);
       --radius: 18px;
+
+      --grad: linear-gradient(90deg, #7c3aed, #06b6d4, #f97316);
     }
 
     *{ box-sizing: border-box; }
@@ -49,7 +51,7 @@
     }
 
     /* Header */
-    .header{ padding: 14px 0 6px; }
+    .header{ padding: 14px 0 6px; text-align: center; }
     .title{
       font-family: "Space Grotesk", Inter, system-ui, sans-serif;
       font-size: 54px;
@@ -57,14 +59,14 @@
       margin: 0;
       letter-spacing: -0.03em;
     }
-    .gradient{
-      background: linear-gradient(90deg, #7c3aed, #06b6d4, #f97316);
+    .gradient-text{
+      background: var(--grad);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
     .subtitle{
-      margin: 10px 0 0;
+      margin: 10px auto 0;
       font-size: 18px;
       color: var(--muted);
       line-height: 1.35;
@@ -73,6 +75,7 @@
     .links{
       display:flex;
       flex-wrap:wrap;
+      justify-content: center;
       gap: 10px;
       margin: 16px 0 22px;
     }
@@ -96,14 +99,28 @@
       border-color: rgba(0,0,0,0.16);
     }
 
-    /* Sections */
-    h2{
+    /* Centered section headers with gradient */
+    .section-title{
+      text-align: center;
+      margin: 34px 0 14px;
       font-family: "Space Grotesk", Inter, system-ui, sans-serif;
-      margin: 30px 0 14px;
-      font-size: 24px;           /* bigger headline */
-      letter-spacing: 0.02em;
-      text-transform: none;      /* less tiny / more readable */
-      color: rgba(0,0,0,0.82);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .section-title .pill{
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.75);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+    }
+    .section-title .pill span{
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .card{
@@ -114,12 +131,12 @@
       box-shadow: var(--shadow);
     }
 
-    /* Abstract special gradient background like TRELLIS */
+    /* Abstract special gradient background like TRELLIS + nicer serif */
     .card-abstract{
       border-radius: var(--radius);
       border: 1px solid rgba(0,0,0,0.08);
       box-shadow: var(--shadow);
-      padding: 16px;
+      padding: 18px 18px 16px;
       background:
         radial-gradient(800px 420px at 10% 0%, rgba(167, 139, 250, 0.22), transparent 60%),
         radial-gradient(800px 420px at 90% 0%, rgba(34, 211, 238, 0.18), transparent 60%),
@@ -127,7 +144,14 @@
         rgba(255,255,255,0.92);
       backdrop-filter: blur(4px);
     }
+    .abstract{
+      font-family: "Source Serif 4", ui-serif, Georgia, "Times New Roman", Times, serif;
+      font-size: 17px;
+      line-height: 1.65;
+      color: rgba(0,0,0,0.82);
+    }
 
+    /* Figures */
     .figure{
       overflow:hidden;
       border-radius: 14px;
@@ -142,19 +166,15 @@
       box-shadow: none;
     }
 
+    /* Nicer captions (serif) */
     .caption{
       margin-top: 10px;
-      font-size: 13px;
-      line-height: 1.35;
-      color: var(--muted);
+      font-family: "Source Serif 4", ui-serif, Georgia, "Times New Roman", Times, serif;
+      font-size: 14px;
+      line-height: 1.45;
+      color: rgba(0,0,0,0.68);
     }
     .caption b{ color: rgba(0,0,0,0.86); }
-
-    .abstract{
-      font-size: 15px;
-      line-height: 1.55;
-      color: rgba(0,0,0,0.82);
-    }
 
     /* Videos */
     video{
@@ -258,18 +278,19 @@
       gap: 6px;
     }
     .video-label{
-      font-size: 12px;
-      font-weight: 650;
-      color: var(--soft);
+      font-family: "Source Serif 4", ui-serif, Georgia, serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(0,0,0,0.62);
       padding-left: 2px;
     }
 
-    /* More results layout: ensure orbit video aligns with images */
+    /* More results layout: force perfect baseline alignment */
     .result-row{
       display:flex;
       flex-wrap:wrap;
       gap: var(--gap);
-      align-items: stretch;      /* key fix */
+      align-items: stretch;
     }
     .mesh-fig, .orbit-col{
       flex: 1 1 0;
@@ -279,26 +300,22 @@
       gap: 6px;
     }
     .orbit-col{
-      align-self: stretch;       /* key fix */
-    }
-    .orbit-col .video-wrapper{
-      margin-top: 0;
+      align-self: stretch;
     }
     .mesh-caption{
-      font-size: 12px;
-      color: var(--soft);
+      font-family: "Source Serif 4", ui-serif, Georgia, serif;
+      font-size: 13px;
+      color: rgba(0,0,0,0.60);
       padding-left: 2px;
     }
     .orbit-label{
-      font-size: 12px;
-      font-weight: 650;
-      color: var(--soft);
-      padding-left: 2px;
+      display:none; /* remove orbit caption entirely in more results */
     }
 
     @media (max-width: 900px){
       .title{ font-size: 40px; }
       .video-col{ max-width: none; }
+      .section-title{ font-size: 24px; }
     }
 
     .foot{
@@ -313,7 +330,7 @@
 <body>
   <main class="wrap">
     <header class="header">
-      <h1 class="title"><span class="gradient">COPY-TRANSFORM-PASTE</span></h1>
+      <h1 class="title"><span class="gradient-text">COPY-TRANSFORM-PASTE</span></h1>
       <div class="subtitle">
         Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints
       </div>
@@ -338,10 +355,10 @@
     </section>
 
     <!-- ABSTRACT -->
-    <h2>Abstract</h2>
+    <div class="section-title"><div class="pill"><span>Abstract</span></div></div>
     <section class="card-abstract">
       <div class="abstract">
-        We study zero-shot 3D alignment of two given meshes, using a text prompt describing their spatial relation---an essential capability for content creation and scene assembly. Earlier approaches primarily rely on geometric alignment procedures, while recent work leverages pretrained 2D diffusion models to model language-conditioned object-object spatial relationships. In contrast, we directly optimize the relative pose at test time, updating translation, rotation, and isotropic scale with CLIP-driven gradients via a differentiable renderer, without training a new model.
+        We study zero-shot 3D alignment of two given meshes, using a text prompt describing their spatial relation-an essential capability for content creation and scene assembly. Earlier approaches primarily rely on geometric alignment procedures, while recent work leverages pretrained 2D diffusion models to model language-conditioned object-object spatial relationships. In contrast, we directly optimize the relative pose at test time, updating translation, rotation, and isotropic scale with CLIP-driven gradients via a differentiable renderer, without training a new model.
         Our framework augments language supervision with geometry-aware objectives: a variant of soft-Iterative Closest Point (ICP) term to encourage surface attachment and a penetration loss to discourage interpenetration. A phased schedule strengthens contact constraints over time, and camera control concentrates the optimization on the interaction region.
         To enable evaluation, we curate a benchmark containing diverse categories and relations, and compare against baselines.
         Our method outperforms all alternatives, yielding semantically faithful and physically plausible alignments.
@@ -349,7 +366,7 @@
     </section>
 
     <!-- METHOD -->
-    <h2>Method Pipeline</h2>
+    <div class="section-title"><div class="pill"><span>Method Pipeline</span></div></div>
     <section class="card">
       <div class="figure">
         <img src="assets/imgs/pipeline.png" alt="Method pipeline">
@@ -357,12 +374,12 @@
       <div class="caption">
         <b>Overview of the proposed pipeline.</b>
         Given two meshes and a text prompt, we optimize the relative pose and scale to produce a text-consistent alignment over $P$ phases. In each phase, we compose the scene, render with a differentiable renderer to obtain a semantic loss, and compute geometric losses.
-        The best result of phase \(i\) initializes phase \(i{+}1\); across phases we increase the fractional soft-ICP and penetration weights and progressively zoom the cameras in. The final output is an aligned 3D placement of the two meshes.
+        The best result of phase i initializes phase i+1; across phases we increase the fractional soft-ICP and penetration weights and progressively zoom the cameras in. The final output is an aligned 3D placement of the two meshes.
       </div>
     </section>
 
     <!-- OPTIMIZATION CAROUSEL -->
-    <h2>Optimization Process Examples</h2>
+    <div class="section-title"><div class="pill"><span>Optimization Process Examples</span></div></div>
     <section class="carousel" id="opt-carousel">
       <div class="carousel-top">
         <div>
@@ -385,7 +402,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label">Final result</div>
+              <div class="video-label"></div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/oyster.mp4"></video>
               </div>
@@ -402,7 +419,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label">Final result</div>
+              <div class="video-label"></div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/stinky_pete.mp4"></video>
               </div>
@@ -419,7 +436,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label">Final result</div>
+              <div class="video-label"></div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/hotdog.mp4"></video>
               </div>
@@ -436,7 +453,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label">Final result</div>
+              <div class="video-label"></div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/necklace.mp4"></video>
               </div>
@@ -447,7 +464,7 @@
     </section>
 
     <!-- MORE RESULTS CAROUSEL -->
-    <h2>More Alignment Results</h2>
+    <div class="section-title"><div class="pill"><span>More Alignment Results</span></div></div>
     <section class="carousel" id="res-carousel">
       <div class="carousel-top">
         <div>
@@ -472,7 +489,6 @@
               <div class="mesh-caption">Pizza cutter mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/pizza.mp4"></video>
               </div>
@@ -491,7 +507,6 @@
               <div class="mesh-caption">Shield mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/captain_america.mp4"></video>
               </div>
@@ -510,7 +525,6 @@
               <div class="mesh-caption">Fish mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/nigiri.mp4"></video>
               </div>
@@ -529,7 +543,6 @@
               <div class="mesh-caption">Cheese toast mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/toast2.mp4"></video>
               </div>
@@ -548,7 +561,6 @@
               <div class="mesh-caption">Arrow mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/target.mp4"></video>
               </div>
@@ -567,7 +579,6 @@
               <div class="mesh-caption">Lid mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/pot.mp4"></video>
               </div>
@@ -586,7 +597,6 @@
               <div class="mesh-caption">Red lipstick mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/lipstick.mp4"></video>
               </div>
@@ -605,7 +615,6 @@
               <div class="mesh-caption">Shell mesh</div>
             </div>
             <div class="orbit-col">
-              <div class="orbit-label">Final result</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/ladybug.mp4"></video>
               </div>
