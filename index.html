@@ -157,13 +157,32 @@
       border: 1px solid rgba(0,0,0,0.10);
       background: #fff;
     }
-    img{
+
+    /* IMPORTANT: make all images fill their figure box consistently */
+    .figure img{
       width: 100%;
+      height: 100%;
       display:block;
+      object-fit: cover;   /* crops wide reference images to match height */
       border: none;
       outline: none;
       box-shadow: none;
     }
+
+    /* Default (mesh) figure aspect */
+    .figure{
+      aspect-ratio: 1 / 1; /* meshes look best as square thumbs */
+    }
+
+    /* Reference images: keep them same height as mesh thumbs (square tile),
+       but prevent "too zoomed" feeling by centering. */
+    .figure.ref{
+      aspect-ratio: 1 / 1;
+    }
+    .figure.ref img{
+      object-position: center center;
+    }
+
     .caption{
       margin-top: 10px;
       font-family: "Source Serif 4", ui-serif, Georgia, "Times New Roman", Times, serif;
@@ -258,12 +277,12 @@
       to{ opacity: 1.0; transform: translateY(0px); }
     }
 
-    /* --- FIX: Optimization inline alignment --- */
+    /* Optimization alignment */
     .example-row{
       display:flex;
       flex-wrap:wrap;
       gap: var(--gap);
-      align-items: stretch;        /* key: same height baseline */
+      align-items: stretch;
     }
     .video-col{
       flex: 1 1 320px;
@@ -272,21 +291,19 @@
       display:flex;
       flex-direction: column;
       gap: 6px;
-      align-self: stretch;         /* key */
+      align-self: stretch;
     }
-    .video-col .video-wrapper{
-      flex: 1 1 auto;              /* key: wrapper fills */
-    }
+    .video-col .video-wrapper{ flex: 1 1 auto; }
     .video-label{
       font-family: "Source Serif 4", ui-serif, Georgia, serif;
       font-size: 13px;
       font-weight: 600;
       color: rgba(0,0,0,0.62);
       padding-left: 2px;
-      min-height: 18px;            /* keep both columns aligned even if empty */
+      min-height: 18px;
     }
 
-    /* More results layout */
+    /* Results layout */
     .result-row{
       display:flex;
       flex-wrap:wrap;
@@ -308,10 +325,24 @@
       padding-left: 2px;
     }
 
+    /* NEW: In image-to-3D we want 3 tiles + 1 video always aligned */
+    .result-row.img2{
+      align-items: stretch;
+    }
+    .result-row.img2 .mesh-fig .figure{
+      aspect-ratio: 1 / 1;   /* force same height tiles */
+    }
+    .result-row.img2 .orbit-col{
+      display:flex;
+      flex-direction: column;
+    }
+
     @media (max-width: 900px){
       .title{ font-size: 40px; }
       .video-col{ max-width: none; }
       .section-title{ font-size: 24px; }
+      .figure{ aspect-ratio: 16 / 11; } /* a bit more roomy on mobile */
+      .result-row.img2 .mesh-fig .figure{ aspect-ratio: 16 / 11; }
     }
 
     .foot{
@@ -340,7 +371,7 @@
 
     <!-- TEASER -->
     <section class="card">
-      <div class="figure">
+      <div class="figure" style="aspect-ratio: 16 / 9;">
         <img src="assets/imgs/teaser.png" alt="Teaser figure">
       </div>
       <div class="caption">
@@ -364,260 +395,13 @@
     <!-- METHOD -->
     <div class="section-title"><div class="pill"><span>Method Pipeline</span></div></div>
     <section class="card">
-      <div class="figure">
+      <div class="figure" style="aspect-ratio: 16 / 9;">
         <img src="assets/imgs/pipeline.png" alt="Method pipeline">
       </div>
       <div class="caption">
         <b>Overview of the proposed pipeline.</b>
         Given two meshes and a text prompt, we optimize the relative pose and scale to produce a text-consistent alignment over $P$ phases. In each phase, we compose the scene, render with a differentiable renderer to obtain a semantic loss, and compute geometric losses.
         The best result of phase \(i\) initializes phase \(i{+}1\); across phases we increase the fractional soft-ICP and penetration weights and progressively zoom the cameras in. The final output is an aligned 3D placement of the two meshes.
-      </div>
-    </section>
-
-    <!-- OPTIMIZATION CAROUSEL -->
-    <div class="section-title"><div class="pill"><span>Optimization Process Examples</span></div></div>
-    <section class="carousel" id="opt-carousel">
-      <div class="carousel-top">
-        <div>
-          <div class="carousel-title" id="opt-title">Prompt: …</div>
-          <div class="carousel-counter" id="opt-counter">1 / 1</div>
-        </div>
-        <div class="nav">
-          <button class="navbtn" type="button" id="opt-prev" aria-label="Previous">←</button>
-          <button class="navbtn" type="button" id="opt-next" aria-label="Next">→</button>
-        </div>
-      </div>
-
-      <div class="slides" id="opt-slides">
-        <div class="slide active" data-title="Prompt: “Oyster with a pearl inside it”">
-          <div class="example-row">
-            <div class="video-col">
-              <div class="video-label">Optimization process</div>
-              <div class="video-wrapper">
-                <video controls muted playsinline preload="metadata" src="assets/videos/oyster_process.mp4"></video>
-              </div>
-            </div>
-            <div class="video-col">
-              <div class="video-label">&nbsp;</div>
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/oyster.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide" data-title="Prompt: “Man wearing a cowboy hat”">
-          <div class="example-row">
-            <div class="video-col">
-              <div class="video-label">Optimization process</div>
-              <div class="video-wrapper">
-                <video controls muted playsinline preload="metadata" src="assets/videos/stinky_pete_process.mp4"></video>
-              </div>
-            </div>
-            <div class="video-col">
-              <div class="video-label">&nbsp;</div>
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/stinky_pete.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide" data-title="Prompt: “Hot dog sausage sits inside a bun”">
-          <div class="example-row">
-            <div class="video-col">
-              <div class="video-label">Optimization process</div>
-              <div class="video-wrapper">
-                <video controls muted playsinline preload="metadata" src="assets/videos/hotdog_process.mp4"></video>
-              </div>
-            </div>
-            <div class="video-col">
-              <div class="video-label">&nbsp;</div>
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/hotdog.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide" data-title="Prompt: “A stand with a golden necklace”">
-          <div class="example-row">
-            <div class="video-col">
-              <div class="video-label">Optimization process</div>
-              <div class="video-wrapper">
-                <video controls muted playsinline preload="metadata" src="assets/videos/necklace_process.mp4"></video>
-              </div>
-            </div>
-            <div class="video-col">
-              <div class="video-label">&nbsp;</div>
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/necklace.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TEXT-TO-3D ALIGNMENT (carousel) -->
-    <div class="section-title"><div class="pill"><span>Text-to-3D Alignment Results</span></div></div>
-    <section class="carousel" id="txt-carousel">
-      <div class="carousel-top">
-        <div>
-          <div class="carousel-title" id="txt-title">…</div>
-          <div class="carousel-counter" id="txt-counter">1 / 1</div>
-        </div>
-        <div class="nav">
-          <button class="navbtn" type="button" id="txt-prev" aria-label="Previous">←</button>
-          <button class="navbtn" type="button" id="txt-next" aria-label="Next">→</button>
-        </div>
-      </div>
-
-      <div class="slides" id="txt-slides">
-        <!-- (existing "More Alignment Results") -->
-        <div class="slide active" data-title="&quot;A pizza cutter cuts a pizza&quot;">
-          <div class="result-row">
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/pizza_solo.png" alt="Pizza mesh"></div>
-              <div class="mesh-caption">Pizza mesh</div>
-            </div>
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/pizza_cutter.png" alt="Pizza cutter mesh"></div>
-              <div class="mesh-caption">Pizza cutter mesh</div>
-            </div>
-            <div class="orbit-col">
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/pizza.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide" data-title="&quot;Captain America holding a shield&quot;">
-          <div class="result-row">
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/captain_america.png" alt="Captain America mesh"></div>
-              <div class="mesh-caption">Captain America mesh</div>
-            </div>
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/shield.png" alt="Shield mesh"></div>
-              <div class="mesh-caption">Shield mesh</div>
-            </div>
-            <div class="orbit-col">
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/captain_america.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide" data-title="&quot;Nigiri&quot;">
-          <div class="result-row">
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/rice.png" alt="Rice mesh"></div>
-              <div class="mesh-caption">Rice mesh</div>
-            </div>
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/fish.png" alt="Fish mesh"></div>
-              <div class="mesh-caption">Fish mesh</div>
-            </div>
-            <div class="orbit-col">
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/nigiri.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide" data-title="&quot;Slice of toast on top of a slice of cheese toast&quot;">
-          <div class="result-row">
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/toast_solo.png" alt="Toast mesh"></div>
-              <div class="mesh-caption">Toast mesh</div>
-            </div>
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/toast_top_solo.png" alt="Cheese toast mesh"></div>
-              <div class="mesh-caption">Cheese toast mesh</div>
-            </div>
-            <div class="orbit-col">
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/toast2.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide" data-title="&quot;A target with an arrow stuck in it&quot;">
-          <div class="result-row">
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/target.png" alt="Target mesh"></div>
-              <div class="mesh-caption">Target mesh</div>
-            </div>
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/arrow.png" alt="Arrow mesh"></div>
-              <div class="mesh-caption">Arrow mesh</div>
-            </div>
-            <div class="orbit-col">
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/target.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide" data-title="&quot;A ceramic pot with a half-open lid&quot;">
-          <div class="result-row">
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/pot.png" alt="Ceramic pot mesh"></div>
-              <div class="mesh-caption">Ceramic pot mesh</div>
-            </div>
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/lid.png" alt="Pot lid mesh"></div>
-              <div class="mesh-caption">Lid mesh</div>
-            </div>
-            <div class="orbit-col">
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/pot.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide" data-title="&quot;A red lipstick&quot;">
-          <div class="result-row">
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/lipstick_cover.png" alt="Lipstick cap mesh"></div>
-              <div class="mesh-caption">Lipstick cover mesh</div>
-            </div>
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/lipstick.png" alt="Red lipstick mesh"></div>
-              <div class="mesh-caption">Red lipstick mesh</div>
-            </div>
-            <div class="orbit-col">
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/lipstick.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide" data-title="&quot;Ladybug with its shell on top&quot;">
-          <div class="result-row">
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/ladybug.png" alt="Ladybug mesh"></div>
-              <div class="mesh-caption">Ladybug body mesh</div>
-            </div>
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/shell.png" alt="Shell mesh"></div>
-              <div class="mesh-caption">Shell mesh</div>
-            </div>
-            <div class="orbit-col">
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/ladybug.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -636,9 +420,8 @@
       </div>
 
       <div class="slides" id="img-slides">
-        <!-- NOTE: replace reference image filenames with your actual ones -->
         <div class="slide active" data-title="Axe and wood (image-guided)">
-          <div class="result-row">
+          <div class="result-row img2">
             <div class="mesh-fig">
               <div class="figure"><img src="assets/imgs/axe.png" alt="Axe mesh"></div>
               <div class="mesh-caption">Axe mesh</div>
@@ -648,7 +431,7 @@
               <div class="mesh-caption">Wood mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/axe_ref.jpg" alt="Reference image"></div>
+              <div class="figure ref"><img src="assets/imgs/axe_ref.jpg" alt="Reference image"></div>
               <div class="mesh-caption">Reference image</div>
             </div>
             <div class="orbit-col">
@@ -660,7 +443,7 @@
         </div>
 
         <div class="slide" data-title="Sundae and cherry (image-guided)">
-          <div class="result-row">
+          <div class="result-row img2">
             <div class="mesh-fig">
               <div class="figure"><img src="assets/imgs/sundae.png" alt="Sundae mesh"></div>
               <div class="mesh-caption">Sundae mesh</div>
@@ -670,7 +453,7 @@
               <div class="mesh-caption">Cherry mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/sundae_ref.jpg" alt="Reference image"></div>
+              <div class="figure ref"><img src="assets/imgs/sundae_ref.jpg" alt="Reference image"></div>
               <div class="mesh-caption">Reference image</div>
             </div>
             <div class="orbit-col">
@@ -682,9 +465,9 @@
         </div>
 
         <div class="slide" data-title="Paint can and paint brush (image-guided)">
-          <div class="result-row">
+          <div class="result-row img2">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/paint_can.png" alt="Paint can mesh"></div>
+              <div class="figure"><img src="assets/imgs/paint.png" alt="Paint can mesh"></div>
               <div class="mesh-caption">Paint can mesh</div>
             </div>
             <div class="mesh-fig">
@@ -692,7 +475,7 @@
               <div class="mesh-caption">Paint brush mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/paint_ref.jpg" alt="Reference image"></div>
+              <div class="figure ref"><img src="assets/imgs/paint_ref.jpg" alt="Reference image"></div>
               <div class="mesh-caption">Reference image</div>
             </div>
             <div class="orbit-col">
@@ -704,9 +487,9 @@
         </div>
 
         <div class="slide" data-title="Coffee plate and coffee cup (image-guided)">
-          <div class="result-row">
+          <div class="result-row img2">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/coffee_plate.png" alt="Coffee plate mesh"></div>
+              <div class="figure"><img src="assets/imgs/plate.png" alt="Coffee plate mesh"></div>
               <div class="mesh-caption">Coffee plate mesh</div>
             </div>
             <div class="mesh-fig">
@@ -714,7 +497,7 @@
               <div class="mesh-caption">Coffee cup mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/coffee_cup_ref.jpg" alt="Reference image"></div>
+              <div class="figure ref"><img src="assets/imgs/coffee_cup_ref.jpg" alt="Reference image"></div>
               <div class="mesh-caption">Reference image</div>
             </div>
             <div class="orbit-col">
@@ -726,7 +509,7 @@
         </div>
 
         <div class="slide" data-title="Cupcake and a candle (image-guided)">
-          <div class="result-row">
+          <div class="result-row img2">
             <div class="mesh-fig">
               <div class="figure"><img src="assets/imgs/cupcake.png" alt="Cupcake mesh"></div>
               <div class="mesh-caption">Cupcake mesh</div>
@@ -736,7 +519,7 @@
               <div class="mesh-caption">Candle mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/birthday_cupcake_ref.jpg" alt="Reference image"></div>
+              <div class="figure ref"><img src="assets/imgs/birthday_cupcake_ref.jpg" alt="Reference image"></div>
               <div class="mesh-caption">Reference image</div>
             </div>
             <div class="orbit-col">
@@ -746,7 +529,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </section>
 
@@ -767,9 +549,6 @@
       function pauseSlideVideos(slide) {
         slide.querySelectorAll("video").forEach(v => {
           try { v.pause(); } catch(e) {}
-          if (v.hasAttribute("controls")) {
-            try { v.currentTime = 0; } catch(e) {}
-          }
         });
       }
 
@@ -805,35 +584,7 @@
       return { show, getIndex: () => idx, root };
     }
 
-    const opt = setupCarousel("opt-carousel", "opt-title", "opt-counter", "opt-prev", "opt-next");
-    const txt = setupCarousel("txt-carousel", "txt-title", "txt-counter", "txt-prev", "txt-next");
-    const img = setupCarousel("img-carousel", "img-title", "img-counter", "img-prev", "img-next");
-
-    function closestCarousel() {
-      const carousels = [opt.root, txt.root, img.root];
-      const y = window.innerHeight / 2;
-      let best = carousels[0], bestDist = Infinity;
-      for (const c of carousels) {
-        const r = c.getBoundingClientRect();
-        const cy = (r.top + r.bottom) / 2;
-        const d = Math.abs(cy - y);
-        if (d < bestDist) { bestDist = d; best = c; }
-      }
-      if (best.id === "opt-carousel") return opt;
-      if (best.id === "txt-carousel") return txt;
-      return img;
-    }
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-
-      const tag = (document.activeElement && document.activeElement.tagName) || "";
-      if (tag === "INPUT" || tag === "TEXTAREA") return;
-
-      const target = closestCarousel();
-      if (e.key === "ArrowLeft") target.show(target.getIndex() - 1);
-      else target.show(target.getIndex() + 1);
-    });
+    setupCarousel("img-carousel", "img-title", "img-counter", "img-prev", "img-next");
   </script>
 </body>
 </html>
