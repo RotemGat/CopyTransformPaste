@@ -5,7 +5,7 @@
   <title>COPY-TRANSFORM-PASTE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Nicer fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -16,16 +16,17 @@
       --gap: 12px;
       --maxw: 1200px;
 
-      --bg: #0b0f19;
-      --panel: rgba(255,255,255,0.06);
-      --panel2: rgba(255,255,255,0.085);
-      --border: rgba(255,255,255,0.10);
+      --bg: #ffffff;
+      --panel: #ffffff;
+      --panel2: #ffffff;
+      --border: rgba(0,0,0,0.10);
 
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.70);
-      --soft: rgba(255,255,255,0.58);
+      --text: rgba(0,0,0,0.90);
+      --muted: rgba(0,0,0,0.66);
+      --soft: rgba(0,0,0,0.55);
 
-      --shadow: 0 12px 34px rgba(0,0,0,0.28);
+      --shadow: 0 12px 34px rgba(0,0,0,0.08);
+      --shadow2: 0 10px 26px rgba(0,0,0,0.06);
       --radius: 18px;
     }
 
@@ -35,9 +36,9 @@
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(900px 600px at 15% 5%, rgba(128, 90, 255, 0.22), transparent 65%),
-        radial-gradient(900px 600px at 85% 0%, rgba(0, 212, 255, 0.18), transparent 60%),
-        radial-gradient(900px 600px at 70% 95%, rgba(255, 122, 0, 0.14), transparent 65%),
+        radial-gradient(900px 600px at 10% 0%, rgba(167, 139, 250, 0.18), transparent 60%),
+        radial-gradient(900px 600px at 90% 0%, rgba(34, 211, 238, 0.14), transparent 60%),
+        radial-gradient(900px 600px at 70% 95%, rgba(251, 146, 60, 0.10), transparent 65%),
         var(--bg);
     }
 
@@ -49,15 +50,19 @@
     }
 
     /* Header */
-    .header{
-      padding: 14px 0 6px;
-    }
+    .header{ padding: 14px 0 6px; }
     .title{
       font-family: "Space Grotesk", Inter, system-ui, sans-serif;
-      font-size: 52px;
+      font-size: 54px;
       line-height: 1.02;
       margin: 0;
       letter-spacing: -0.03em;
+    }
+    .gradient{
+      background: linear-gradient(90deg, #7c3aed, #06b6d4, #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
     .subtitle{
       margin: 10px 0 0;
@@ -65,12 +70,6 @@
       color: var(--muted);
       line-height: 1.35;
       max-width: 980px;
-    }
-    .gradient{
-      background: linear-gradient(90deg, #a78bfa, #22d3ee, #fb923c);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
     }
     .links{
       display:flex;
@@ -85,8 +84,8 @@
       padding: 10px 14px;
       border-radius: 14px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+      background: rgba(255,255,255,0.85);
+      box-shadow: var(--shadow2);
       font-weight: 650;
       font-size: 14px;
       color: var(--text);
@@ -94,8 +93,8 @@
     }
     .btn:hover{
       transform: translateY(-1px);
-      background: rgba(255,255,255,0.075);
-      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,1.0);
+      border-color: rgba(0,0,0,0.16);
     }
 
     /* Sections */
@@ -105,11 +104,11 @@
       font-size: 18px;
       letter-spacing: 0.10em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.82);
+      color: rgba(0,0,0,0.72);
     }
 
     .card{
-      background: linear-gradient(180deg, var(--panel), rgba(255,255,255,0.04));
+      background: var(--panel);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 14px;
@@ -119,8 +118,8 @@
     .figure{
       overflow:hidden;
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(0,0,0,0.10);
+      background: #fff;
     }
     img{
       width: 100%;
@@ -136,12 +135,12 @@
       line-height: 1.35;
       color: var(--muted);
     }
-    .caption b{ color: rgba(255,255,255,0.90); }
+    .caption b{ color: rgba(0,0,0,0.86); }
 
     .abstract{
       font-size: 15px;
       line-height: 1.55;
-      color: rgba(255,255,255,0.86);
+      color: rgba(0,0,0,0.82);
     }
 
     /* Videos */
@@ -160,29 +159,77 @@
       aspect-ratio: 16 / 9;
       overflow:hidden;
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.10);
+      border: 1px solid rgba(0,0,0,0.10);
       background:#000;
     }
 
-    /* Optimization examples */
-    .examples{
-      display:flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .example{
-      background: linear-gradient(180deg, var(--panel2), rgba(255,255,255,0.04));
+    /* Carousel shell */
+    .carousel{
+      position: relative;
+      background: #fff;
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 14px;
       box-shadow: var(--shadow);
+      padding: 14px;
     }
-    .example-prompt{
-      font-size: 14px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.90);
+    .carousel-top{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
       margin-bottom: 10px;
     }
+    .carousel-title{
+      font-size: 14px;
+      font-weight: 750;
+      color: rgba(0,0,0,0.85);
+    }
+    .carousel-counter{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .nav{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+    }
+    .navbtn{
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      user-select: none;
+    }
+    .navbtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(0,0,0,0.18);
+      background: rgba(255,255,255,1.0);
+    }
+    .navbtn:active{ transform: translateY(0px); }
+
+    /* Slides */
+    .slides{ position: relative; }
+    .slide{
+      display:none;
+      animation: fadein 140ms ease;
+    }
+    .slide.active{ display:block; }
+    @keyframes fadein{
+      from{ opacity: 0.0; transform: translateY(2px); }
+      to{ opacity: 1.0; transform: translateY(0px); }
+    }
+
+    /* Optimization layout (same as before) */
     .example-row{
       display:flex;
       flex-wrap:wrap;
@@ -192,14 +239,10 @@
     .video-col{
       flex: 1 1 320px;
       min-width: 260px;
-      max-width: 520px; /* smaller */
+      max-width: 520px;
       display:flex;
       flex-direction: column;
       gap: 6px;
-    }
-    @media (max-width: 900px){
-      .video-col{ max-width: none; }
-      .title{ font-size: 40px; }
     }
     .video-label{
       font-size: 12px;
@@ -208,26 +251,7 @@
       padding-left: 2px;
     }
 
-    /* More results blocks */
-    .more-results{
-      display:flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: 6px;
-    }
-    .result-example{
-      background: linear-gradient(180deg, var(--panel2), rgba(255,255,255,0.04));
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px;
-      box-shadow: var(--shadow);
-    }
-    .result-example h3{
-      margin: 0 0 10px;
-      font-size: 15px;
-      font-weight: 750;
-      color: rgba(255,255,255,0.92);
-    }
+    /* More results layout */
     .result-row{
       display:flex;
       flex-wrap:wrap;
@@ -253,11 +277,15 @@
       padding-left: 2px;
     }
 
-    /* Footer small note (optional) */
+    @media (max-width: 900px){
+      .title{ font-size: 40px; }
+      .video-col{ max-width: none; }
+    }
+
     .foot{
       margin: 34px 0 12px;
       text-align:center;
-      color: rgba(255,255,255,0.45);
+      color: rgba(0,0,0,0.40);
       font-size: 12px;
     }
   </style>
@@ -272,14 +300,13 @@
       </div>
 
       <div class="links">
-        <!-- Replace arXiv id + paper path -->
         <a class="btn" href="https://arxiv.org/abs/XXXX.XXXXX" target="_blank" rel="noopener">arXiv</a>
         <a class="btn" href="assets/paper.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
         <a class="btn" href="https://github.com/RotemGat/ObjectsAlignment" target="_blank" rel="noopener">Code</a>
       </div>
     </header>
 
-    <!-- TEASER (PNG) -->
+    <!-- TEASER -->
     <section class="card">
       <div class="figure">
         <img src="assets/imgs/teaser.png" alt="Teaser figure">
@@ -302,7 +329,7 @@
       </div>
     </section>
 
-    <!-- METHOD PIPELINE (PNG) -->
+    <!-- METHOD -->
     <h2>Method Pipeline</h2>
     <section class="card">
       <div class="figure">
@@ -315,251 +342,362 @@
       </div>
     </section>
 
-    <!-- OPTIMIZATION VIDEOS -->
+    <!-- OPTIMIZATION CAROUSEL -->
     <h2>Optimization Process Examples</h2>
-    <section class="examples">
+    <section class="carousel" id="opt-carousel">
+      <div class="carousel-top">
+        <div>
+          <div class="carousel-title" id="opt-title">Prompt: …</div>
+          <div class="carousel-counter" id="opt-counter">1 / 1</div>
+        </div>
+        <div class="nav">
+          <button class="navbtn" type="button" id="opt-prev" aria-label="Previous">←</button>
+          <button class="navbtn" type="button" id="opt-next" aria-label="Next">→</button>
+        </div>
+      </div>
 
-      <article class="example">
-        <div class="example-prompt">Prompt: “Oyster with a pearl inside it”</div>
-        <div class="example-row">
-          <div class="video-col">
-            <div class="video-label">Optimization process</div>
-            <div class="video-wrapper">
-              <video controls muted playsinline src="assets/videos/oyster_process.mp4"></video>
+      <div class="slides" id="opt-slides">
+        <!-- Slide 1 -->
+        <div class="slide active" data-title="Prompt: “Oyster with a pearl inside it”">
+          <div class="example-row">
+            <div class="video-col">
+              <div class="video-label">Optimization process</div>
+              <div class="video-wrapper">
+                <video controls muted playsinline preload="metadata" src="assets/videos/oyster_process.mp4"></video>
+              </div>
             </div>
-          </div>
-          <div class="video-col">
-            <div class="video-label">Final result (orbit)</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/oyster.mp4"></video>
+            <div class="video-col">
+              <div class="video-label">Final result (orbit)</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/oyster.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <article class="example">
-        <div class="example-prompt">Prompt: “Man wearing a cowboy hat”</div>
-        <div class="example-row">
-          <div class="video-col">
-            <div class="video-label">Optimization process</div>
-            <div class="video-wrapper">
-              <video controls muted playsinline src="assets/videos/stinky_pete_process.mp4"></video>
+        <!-- Slide 2 -->
+        <div class="slide" data-title="Prompt: “Man wearing a cowboy hat”">
+          <div class="example-row">
+            <div class="video-col">
+              <div class="video-label">Optimization process</div>
+              <div class="video-wrapper">
+                <video controls muted playsinline preload="metadata" src="assets/videos/stinky_pete_process.mp4"></video>
+              </div>
             </div>
-          </div>
-          <div class="video-col">
-            <div class="video-label">Final result (orbit)</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/stinky_pete.mp4"></video>
+            <div class="video-col">
+              <div class="video-label">Final result (orbit)</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/stinky_pete.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <article class="example">
-        <div class="example-prompt">Prompt: “Hot dog sausage sits inside a bun”</div>
-        <div class="example-row">
-          <div class="video-col">
-            <div class="video-label">Optimization process</div>
-            <div class="video-wrapper">
-              <video controls muted playsinline src="assets/videos/hotdog_process.mp4"></video>
+        <!-- Slide 3 -->
+        <div class="slide" data-title="Prompt: “Hot dog sausage sits inside a bun”">
+          <div class="example-row">
+            <div class="video-col">
+              <div class="video-label">Optimization process</div>
+              <div class="video-wrapper">
+                <video controls muted playsinline preload="metadata" src="assets/videos/hotdog_process.mp4"></video>
+              </div>
             </div>
-          </div>
-          <div class="video-col">
-            <div class="video-label">Final result (orbit)</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/hotdog.mp4"></video>
+            <div class="video-col">
+              <div class="video-label">Final result (orbit)</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/hotdog.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <article class="example">
-        <div class="example-prompt">Prompt: “A stand with a golden necklace”</div>
-        <div class="example-row">
-          <div class="video-col">
-            <div class="video-label">Optimization process</div>
-            <div class="video-wrapper">
-              <video controls muted playsinline src="assets/videos/necklace_process.mp4"></video>
+        <!-- Slide 4 -->
+        <div class="slide" data-title="Prompt: “A stand with a golden necklace”">
+          <div class="example-row">
+            <div class="video-col">
+              <div class="video-label">Optimization process</div>
+              <div class="video-wrapper">
+                <video controls muted playsinline preload="metadata" src="assets/videos/necklace_process.mp4"></video>
+              </div>
             </div>
-          </div>
-          <div class="video-col">
-            <div class="video-label">Final result (orbit)</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/necklace.mp4"></video>
+            <div class="video-col">
+              <div class="video-label">Final result (orbit)</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/necklace.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
+      </div>
     </section>
 
-    <!-- MORE RESULTS (same as your supp) -->
+    <!-- MORE RESULTS CAROUSEL -->
     <h2>More Alignment Results</h2>
-    <section class="more-results">
+    <section class="carousel" id="res-carousel">
+      <div class="carousel-top">
+        <div>
+          <div class="carousel-title" id="res-title">…</div>
+          <div class="carousel-counter" id="res-counter">1 / 1</div>
+        </div>
+        <div class="nav">
+          <button class="navbtn" type="button" id="res-prev" aria-label="Previous">←</button>
+          <button class="navbtn" type="button" id="res-next" aria-label="Next">→</button>
+        </div>
+      </div>
 
-      <article class="result-example">
-        <h3>"A pizza cutter cuts a pizza"</h3>
-        <div class="result-row">
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/pizza_solo.png" alt="Pizza mesh"></div>
-            <div class="mesh-caption">Pizza mesh</div>
-          </div>
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/pizza_cutter.png" alt="Pizza cutter mesh"></div>
-            <div class="mesh-caption">Pizza cutter mesh</div>
-          </div>
-          <div class="orbit-col">
-            <div class="orbit-label">Final result</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/pizza.mp4"></video>
+      <div class="slides" id="res-slides">
+        <!-- Pizza -->
+        <div class="slide active" data-title="&quot;A pizza cutter cuts a pizza&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/pizza_solo.png" alt="Pizza mesh"></div>
+              <div class="mesh-caption">Pizza mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/pizza_cutter.png" alt="Pizza cutter mesh"></div>
+              <div class="mesh-caption">Pizza cutter mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="orbit-label">Final result</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/pizza.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <article class="result-example">
-        <h3>"Captain America holding a shield"</h3>
-        <div class="result-row">
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/captain_america.png" alt="Captain America mesh"></div>
-            <div class="mesh-caption">Captain America mesh</div>
-          </div>
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/shield.png" alt="Shield mesh"></div>
-            <div class="mesh-caption">Shield mesh</div>
-          </div>
-          <div class="orbit-col">
-            <div class="orbit-label">Final result</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/captain_america.mp4"></video>
+        <!-- Captain America -->
+        <div class="slide" data-title="&quot;Captain America holding a shield&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/captain_america.png" alt="Captain America mesh"></div>
+              <div class="mesh-caption">Captain America mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/shield.png" alt="Shield mesh"></div>
+              <div class="mesh-caption">Shield mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="orbit-label">Final result</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/captain_america.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <article class="result-example">
-        <h3>"Nigiri"</h3>
-        <div class="result-row">
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/rice.png" alt="Rice mesh"></div>
-            <div class="mesh-caption">Rice mesh</div>
-          </div>
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/fish.png" alt="Fish mesh"></div>
-            <div class="mesh-caption">Fish mesh</div>
-          </div>
-          <div class="orbit-col">
-            <div class="orbit-label">Final result</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/nigiri.mp4"></video>
+        <!-- Nigiri -->
+        <div class="slide" data-title="&quot;Nigiri&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/rice.png" alt="Rice mesh"></div>
+              <div class="mesh-caption">Rice mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/fish.png" alt="Fish mesh"></div>
+              <div class="mesh-caption">Fish mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="orbit-label">Final result</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/nigiri.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <article class="result-example">
-        <h3>"Slice of toast on top of a slice of cheese toast"</h3>
-        <div class="result-row">
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/toast_solo.png" alt="Toast mesh"></div>
-            <div class="mesh-caption">Toast mesh</div>
-          </div>
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/toast_top_solo.png" alt="Cheese toast mesh"></div>
-            <div class="mesh-caption">Cheese toast mesh</div>
-          </div>
-          <div class="orbit-col">
-            <div class="orbit-label">Final result</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/toast2.mp4"></video>
+        <!-- Toast -->
+        <div class="slide" data-title="&quot;Slice of toast on top of a slice of cheese toast&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/toast_solo.png" alt="Toast mesh"></div>
+              <div class="mesh-caption">Toast mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/toast_top_solo.png" alt="Cheese toast mesh"></div>
+              <div class="mesh-caption">Cheese toast mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="orbit-label">Final result</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/toast2.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <article class="result-example">
-        <h3>"A target with an arrow stuck in it"</h3>
-        <div class="result-row">
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/target.png" alt="Target mesh"></div>
-            <div class="mesh-caption">Target mesh</div>
-          </div>
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/arrow.png" alt="Arrow mesh"></div>
-            <div class="mesh-caption">Arrow mesh</div>
-          </div>
-          <div class="orbit-col">
-            <div class="orbit-label">Orbit view of aligned pair</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/target.mp4"></video>
+        <!-- Target -->
+        <div class="slide" data-title="&quot;A target with an arrow stuck in it&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/target.png" alt="Target mesh"></div>
+              <div class="mesh-caption">Target mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/arrow.png" alt="Arrow mesh"></div>
+              <div class="mesh-caption">Arrow mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="orbit-label">Orbit view of aligned pair</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/target.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <article class="result-example">
-        <h3>"A ceramic pot with a half-open lid"</h3>
-        <div class="result-row">
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/pot.png" alt="Ceramic pot mesh"></div>
-            <div class="mesh-caption">Ceramic pot mesh</div>
-          </div>
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/lid.png" alt="Pot lid mesh"></div>
-            <div class="mesh-caption">Lid mesh</div>
-          </div>
-          <div class="orbit-col">
-            <div class="orbit-label">Orbit view of aligned pair</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/pot.mp4"></video>
+        <!-- Pot -->
+        <div class="slide" data-title="&quot;A ceramic pot with a half-open lid&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/pot.png" alt="Ceramic pot mesh"></div>
+              <div class="mesh-caption">Ceramic pot mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/lid.png" alt="Pot lid mesh"></div>
+              <div class="mesh-caption">Lid mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="orbit-label">Orbit view of aligned pair</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/pot.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <article class="result-example">
-        <h3>"A red lipstick"</h3>
-        <div class="result-row">
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/lipstick_cover.png" alt="Lipstick cap mesh"></div>
-            <div class="mesh-caption">Lipstick cover mesh</div>
-          </div>
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/lipstick.png" alt="Red lipstick mesh"></div>
-            <div class="mesh-caption">Red lipstick mesh</div>
-          </div>
-          <div class="orbit-col">
-            <div class="orbit-label">Orbit view of aligned pair</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/lipstick.mp4"></video>
+        <!-- Lipstick -->
+        <div class="slide" data-title="&quot;A red lipstick&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/lipstick_cover.png" alt="Lipstick cap mesh"></div>
+              <div class="mesh-caption">Lipstick cover mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/lipstick.png" alt="Red lipstick mesh"></div>
+              <div class="mesh-caption">Red lipstick mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="orbit-label">Orbit view of aligned pair</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/lipstick.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
-      <article class="result-example">
-        <h3>"Ladybug with its shell on top"</h3>
-        <div class="result-row">
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/ladybug.png" alt="Ladybug mesh"></div>
-            <div class="mesh-caption">Ladybug body mesh</div>
-          </div>
-          <div class="mesh-fig">
-            <div class="figure"><img src="assets/imgs/shell.png" alt="Shell mesh"></div>
-            <div class="mesh-caption">Shell mesh</div>
-          </div>
-          <div class="orbit-col">
-            <div class="orbit-label">Orbit view of aligned pair</div>
-            <div class="video-wrapper">
-              <video autoplay muted loop playsinline src="assets/videos/ladybug.mp4"></video>
+        <!-- Ladybug -->
+        <div class="slide" data-title="&quot;Ladybug with its shell on top&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/ladybug.png" alt="Ladybug mesh"></div>
+              <div class="mesh-caption">Ladybug body mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/shell.png" alt="Shell mesh"></div>
+              <div class="mesh-caption">Shell mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="orbit-label">Orbit view of aligned pair</div>
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/ladybug.mp4"></video>
+              </div>
             </div>
           </div>
         </div>
-      </article>
 
+      </div>
     </section>
 
     <div class="foot">© 2026 • COPY-TRANSFORM-PASTE</div>
   </main>
+
+  <script>
+    function setupCarousel(rootId, titleId, counterId, prevId, nextId) {
+      const root = document.getElementById(rootId);
+      const slides = Array.from(root.querySelectorAll(".slide"));
+      const titleEl = document.getElementById(titleId);
+      const counterEl = document.getElementById(counterId);
+      const prevBtn = document.getElementById(prevId);
+      const nextBtn = document.getElementById(nextId);
+
+      let idx = 0;
+
+      function pauseSlideVideos(slide) {
+        slide.querySelectorAll("video").forEach(v => {
+          // Don't disturb looped orbit if it continues in background? We'll pause to save CPU.
+          try { v.pause(); } catch(e) {}
+          // reset process videos to start when returning (optional)
+          if (v.hasAttribute("controls")) {
+            try { v.currentTime = 0; } catch(e) {}
+          }
+        });
+      }
+
+      function playAutoplayVideos(slide) {
+        slide.querySelectorAll("video[autoplay]").forEach(v => {
+          // browsers may block even muted autoplay sometimes; ignore failures.
+          const p = v.play();
+          if (p && typeof p.catch === "function") p.catch(()=>{});
+        });
+      }
+
+      function show(i) {
+        const old = slides[idx];
+        old.classList.remove("active");
+        pauseSlideVideos(old);
+
+        idx = (i + slides.length) % slides.length;
+
+        const cur = slides[idx];
+        cur.classList.add("active");
+        titleEl.textContent = cur.dataset.title || "";
+        counterEl.textContent = (idx + 1) + " / " + slides.length;
+
+        playAutoplayVideos(cur);
+      }
+
+      prevBtn.addEventListener("click", () => show(idx - 1));
+      nextBtn.addEventListener("click", () => show(idx + 1));
+
+      // init
+      titleEl.textContent = slides[0].dataset.title || "";
+      counterEl.textContent = "1 / " + slides.length;
+      playAutoplayVideos(slides[0]);
+
+      return { show, getIndex: () => idx, count: () => slides.length, root };
+    }
+
+    const opt = setupCarousel("opt-carousel", "opt-title", "opt-counter", "opt-prev", "opt-next");
+    const res = setupCarousel("res-carousel", "res-title", "res-counter", "res-prev", "res-next");
+
+    // Keyboard navigation:
+    // - Left/Right controls whichever carousel is closest to viewport center.
+    function closestCarousel() {
+      const carousels = [opt.root, res.root];
+      const y = window.innerHeight / 2;
+      let best = carousels[0], bestDist = Infinity;
+      for (const c of carousels) {
+        const r = c.getBoundingClientRect();
+        const cy = (r.top + r.bottom) / 2;
+        const d = Math.abs(cy - y);
+        if (d < bestDist) { bestDist = d; best = c; }
+      }
+      return best.id === "opt-carousel" ? opt : res;
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+
+      // avoid stealing arrows when user is interacting with a video timeline etc.
+      const tag = (document.activeElement && document.activeElement.tagName) || "";
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+
+      const target = closestCarousel();
+      if (e.key === "ArrowLeft") target.show(target.getIndex() - 1);
+      else target.show(target.getIndex() + 1);
+    });
+  </script>
 </body>
 </html>
