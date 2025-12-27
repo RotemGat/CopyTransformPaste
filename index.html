@@ -358,7 +358,7 @@
       <div class="caption">
         <b>Text-guided object-object alignment and iterative composition.</b>
         The figure shows four independent examples, each presenting the input meshes and text prompt alongside our alignment result.
-        In addition, an iterative example demonstrates progressive assembly of a burger: the output of stage \(k\) is incorporated into the input of stage \(k{+}1\), gradually forming the final arrangement.
+        In addition, an iterative example demonstrates progressive assembly of a burger: the output of stage k is incorporated into the input of stage k+1, gradually forming the final arrangement.
       </div>
     </section>
 
@@ -382,7 +382,7 @@
       <div class="caption">
         <b>Overview of the proposed pipeline.</b>
         Given two meshes and a text prompt, we optimize the relative pose and scale to produce a text-consistent alignment over $P$ phases. In each phase, we compose the scene, render with a differentiable renderer to obtain a semantic loss, and compute geometric losses.
-        The best result of phase \(i\) initializes phase \(i{+}1\); across phases we increase the fractional soft-ICP and penetration weights and progressively zoom the cameras in. The final output is an aligned 3D placement of the two meshes.
+        The best result of phase i initializes phase i+1; across phases we increase the fractional soft-ICP and penetration weights and progressively zoom the cameras in. The final output is an aligned 3D placement of the two meshes.
       </div>
     </section>
 
@@ -576,23 +576,6 @@
           </div>
         </div>
 
-        <div class="slide" data-title="&quot;A red lipstick&quot;">
-          <div class="result-row">
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/lipstick_cover.png" alt="Lipstick cap mesh"></div>
-              <div class="mesh-caption">Lipstick cover mesh</div>
-            </div>
-            <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/lipstick.png" alt="Red lipstick mesh"></div>
-              <div class="mesh-caption">Red lipstick mesh</div>
-            </div>
-            <div class="orbit-col">
-              <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/lipstick.mp4"></video>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
