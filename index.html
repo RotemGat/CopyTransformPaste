@@ -5,7 +5,7 @@
   <title>COPY-TRANSFORM-PASTE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Fonts (nicer abstract/captions) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
@@ -22,7 +22,6 @@
 
       --text: rgba(0,0,0,0.90);
       --muted: rgba(0,0,0,0.66);
-      --soft: rgba(0,0,0,0.55);
 
       --shadow: 0 12px 34px rgba(0,0,0,0.08);
       --shadow2: 0 10px 26px rgba(0,0,0,0.06);
@@ -131,7 +130,7 @@
       box-shadow: var(--shadow);
     }
 
-    /* Abstract special gradient background like TRELLIS + nicer serif */
+    /* Abstract special gradient background */
     .card-abstract{
       border-radius: var(--radius);
       border: 1px solid rgba(0,0,0,0.08);
@@ -151,7 +150,7 @@
       color: rgba(0,0,0,0.82);
     }
 
-    /* Figures */
+    /* Figures + captions */
     .figure{
       overflow:hidden;
       border-radius: 14px;
@@ -165,8 +164,6 @@
       outline: none;
       box-shadow: none;
     }
-
-    /* Nicer captions (serif) */
     .caption{
       margin-top: 10px;
       font-family: "Source Serif 4", ui-serif, Georgia, "Times New Roman", Times, serif;
@@ -248,7 +245,6 @@
       border-color: rgba(0,0,0,0.18);
       background: rgba(255,255,255,1.0);
     }
-    .navbtn:active{ transform: translateY(0px); }
 
     /* Slides */
     .slides{ position: relative; }
@@ -262,12 +258,12 @@
       to{ opacity: 1.0; transform: translateY(0px); }
     }
 
-    /* Optimization layout */
+    /* --- FIX: Optimization inline alignment --- */
     .example-row{
       display:flex;
       flex-wrap:wrap;
       gap: var(--gap);
-      align-items: flex-start;
+      align-items: stretch;        /* key: same height baseline */
     }
     .video-col{
       flex: 1 1 320px;
@@ -276,6 +272,10 @@
       display:flex;
       flex-direction: column;
       gap: 6px;
+      align-self: stretch;         /* key */
+    }
+    .video-col .video-wrapper{
+      flex: 1 1 auto;              /* key: wrapper fills */
     }
     .video-label{
       font-family: "Source Serif 4", ui-serif, Georgia, serif;
@@ -283,9 +283,10 @@
       font-weight: 600;
       color: rgba(0,0,0,0.62);
       padding-left: 2px;
+      min-height: 18px;            /* keep both columns aligned even if empty */
     }
 
-    /* More results layout: force perfect baseline alignment */
+    /* More results layout */
     .result-row{
       display:flex;
       flex-wrap:wrap;
@@ -298,8 +299,6 @@
       display:flex;
       flex-direction: column;
       gap: 6px;
-    }
-    .orbit-col{
       align-self: stretch;
     }
     .mesh-caption{
@@ -307,9 +306,6 @@
       font-size: 13px;
       color: rgba(0,0,0,0.60);
       padding-left: 2px;
-    }
-    .orbit-label{
-      display:none; /* remove orbit caption entirely in more results */
     }
 
     @media (max-width: 900px){
@@ -358,7 +354,7 @@
     <div class="section-title"><div class="pill"><span>Abstract</span></div></div>
     <section class="card-abstract">
       <div class="abstract">
-        We study zero-shot 3D alignment of two given meshes, using a text prompt describing their spatial relation-an essential capability for content creation and scene assembly. Earlier approaches primarily rely on geometric alignment procedures, while recent work leverages pretrained 2D diffusion models to model language-conditioned object-object spatial relationships. In contrast, we directly optimize the relative pose at test time, updating translation, rotation, and isotropic scale with CLIP-driven gradients via a differentiable renderer, without training a new model.
+        We study zero-shot 3D alignment of two given meshes, using a text prompt describing their spatial relation---an essential capability for content creation and scene assembly. Earlier approaches primarily rely on geometric alignment procedures, while recent work leverages pretrained 2D diffusion models to model language-conditioned object-object spatial relationships. In contrast, we directly optimize the relative pose at test time, updating translation, rotation, and isotropic scale with CLIP-driven gradients via a differentiable renderer, without training a new model.
         Our framework augments language supervision with geometry-aware objectives: a variant of soft-Iterative Closest Point (ICP) term to encourage surface attachment and a penetration loss to discourage interpenetration. A phased schedule strengthens contact constraints over time, and camera control concentrates the optimization on the interaction region.
         To enable evaluation, we curate a benchmark containing diverse categories and relations, and compare against baselines.
         Our method outperforms all alternatives, yielding semantically faithful and physically plausible alignments.
@@ -374,7 +370,7 @@
       <div class="caption">
         <b>Overview of the proposed pipeline.</b>
         Given two meshes and a text prompt, we optimize the relative pose and scale to produce a text-consistent alignment over $P$ phases. In each phase, we compose the scene, render with a differentiable renderer to obtain a semantic loss, and compute geometric losses.
-        The best result of phase i initializes phase i+1; across phases we increase the fractional soft-ICP and penetration weights and progressively zoom the cameras in. The final output is an aligned 3D placement of the two meshes.
+        The best result of phase \(i\) initializes phase \(i{+}1\); across phases we increase the fractional soft-ICP and penetration weights and progressively zoom the cameras in. The final output is an aligned 3D placement of the two meshes.
       </div>
     </section>
 
@@ -402,7 +398,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label"></div>
+              <div class="video-label">&nbsp;</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/oyster.mp4"></video>
               </div>
@@ -419,7 +415,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label"></div>
+              <div class="video-label">&nbsp;</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/stinky_pete.mp4"></video>
               </div>
@@ -436,7 +432,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label"></div>
+              <div class="video-label">&nbsp;</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/hotdog.mp4"></video>
               </div>
@@ -453,7 +449,7 @@
               </div>
             </div>
             <div class="video-col">
-              <div class="video-label"></div>
+              <div class="video-label">&nbsp;</div>
               <div class="video-wrapper">
                 <video autoplay muted loop playsinline preload="auto" src="assets/videos/necklace.mp4"></video>
               </div>
@@ -463,21 +459,22 @@
       </div>
     </section>
 
-    <!-- MORE RESULTS CAROUSEL -->
-    <div class="section-title"><div class="pill"><span>More Alignment Results</span></div></div>
-    <section class="carousel" id="res-carousel">
+    <!-- TEXT-TO-3D ALIGNMENT (carousel) -->
+    <div class="section-title"><div class="pill"><span>Text-to-3D Alignment Results</span></div></div>
+    <section class="carousel" id="txt-carousel">
       <div class="carousel-top">
         <div>
-          <div class="carousel-title" id="res-title">…</div>
-          <div class="carousel-counter" id="res-counter">1 / 1</div>
+          <div class="carousel-title" id="txt-title">…</div>
+          <div class="carousel-counter" id="txt-counter">1 / 1</div>
         </div>
         <div class="nav">
-          <button class="navbtn" type="button" id="res-prev" aria-label="Previous">←</button>
-          <button class="navbtn" type="button" id="res-next" aria-label="Next">→</button>
+          <button class="navbtn" type="button" id="txt-prev" aria-label="Previous">←</button>
+          <button class="navbtn" type="button" id="txt-next" aria-label="Next">→</button>
         </div>
       </div>
 
-      <div class="slides" id="res-slides">
+      <div class="slides" id="txt-slides">
+        <!-- (existing "More Alignment Results") -->
         <div class="slide active" data-title="&quot;A pizza cutter cuts a pizza&quot;">
           <div class="result-row">
             <div class="mesh-fig">
@@ -621,6 +618,134 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- IMAGE-TO-3D ALIGNMENT (carousel) -->
+    <div class="section-title"><div class="pill"><span>Image-to-3D Alignment Results</span></div></div>
+    <section class="carousel" id="img-carousel">
+      <div class="carousel-top">
+        <div>
+          <div class="carousel-title" id="img-title">…</div>
+          <div class="carousel-counter" id="img-counter">1 / 1</div>
+        </div>
+        <div class="nav">
+          <button class="navbtn" type="button" id="img-prev" aria-label="Previous">←</button>
+          <button class="navbtn" type="button" id="img-next" aria-label="Next">→</button>
+        </div>
+      </div>
+
+      <div class="slides" id="img-slides">
+        <!-- NOTE: replace reference image filenames with your actual ones -->
+        <div class="slide active" data-title="Axe and wood (image-guided)">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/axe.png" alt="Axe mesh"></div>
+              <div class="mesh-caption">Axe mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/wood.png" alt="Wood mesh"></div>
+              <div class="mesh-caption">Wood mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/axe_wood_ref.png" alt="Reference image"></div>
+              <div class="mesh-caption">Reference image</div>
+            </div>
+            <div class="orbit-col">
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/axe_wood.mp4"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide" data-title="Sundae and cherry (image-guided)">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/sundae.png" alt="Sundae mesh"></div>
+              <div class="mesh-caption">Sundae mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/cherry.png" alt="Cherry mesh"></div>
+              <div class="mesh-caption">Cherry mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/sundae_cherry_ref.png" alt="Reference image"></div>
+              <div class="mesh-caption">Reference image</div>
+            </div>
+            <div class="orbit-col">
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/sundae_cherry.mp4"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide" data-title="Paint can and paint brush (image-guided)">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/paint_can.png" alt="Paint can mesh"></div>
+              <div class="mesh-caption">Paint can mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/paint_brush.png" alt="Paint brush mesh"></div>
+              <div class="mesh-caption">Paint brush mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/paint_ref.png" alt="Reference image"></div>
+              <div class="mesh-caption">Reference image</div>
+            </div>
+            <div class="orbit-col">
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/paint_can_brush.mp4"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide" data-title="Coffee plate and coffee cup (image-guided)">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/coffee_plate.png" alt="Coffee plate mesh"></div>
+              <div class="mesh-caption">Coffee plate mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/coffee_cup.png" alt="Coffee cup mesh"></div>
+              <div class="mesh-caption">Coffee cup mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/coffee_ref.png" alt="Reference image"></div>
+              <div class="mesh-caption">Reference image</div>
+            </div>
+            <div class="orbit-col">
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/coffee_plate_cup.mp4"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide" data-title="Cupcake and a candle (image-guided)">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/cupcake.png" alt="Cupcake mesh"></div>
+              <div class="mesh-caption">Cupcake mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/candle.png" alt="Candle mesh"></div>
+              <div class="mesh-caption">Candle mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/cupcake_candle_ref.png" alt="Reference image"></div>
+              <div class="mesh-caption">Reference image</div>
+            </div>
+            <div class="orbit-col">
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/cupcake_candle.mp4"></video>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
     </section>
@@ -681,10 +806,11 @@
     }
 
     const opt = setupCarousel("opt-carousel", "opt-title", "opt-counter", "opt-prev", "opt-next");
-    const res = setupCarousel("res-carousel", "res-title", "res-counter", "res-prev", "res-next");
+    const txt = setupCarousel("txt-carousel", "txt-title", "txt-counter", "txt-prev", "txt-next");
+    const img = setupCarousel("img-carousel", "img-title", "img-counter", "img-prev", "img-next");
 
     function closestCarousel() {
-      const carousels = [opt.root, res.root];
+      const carousels = [opt.root, txt.root, img.root];
       const y = window.innerHeight / 2;
       let best = carousels[0], bestDist = Infinity;
       for (const c of carousels) {
@@ -693,7 +819,9 @@
         const d = Math.abs(cy - y);
         if (d < bestDist) { bestDist = d; best = c; }
       }
-      return best.id === "opt-carousel" ? opt : res;
+      if (best.id === "opt-carousel") return opt;
+      if (best.id === "txt-carousel") return txt;
+      return img;
     }
 
     document.addEventListener("keydown", (e) => {
