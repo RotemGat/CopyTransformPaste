@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>COPY-TRANSFORM-PASTE — Zero-Shot Object-Object Alignment</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <meta name="description" content="COPY-TRANSFORM-PASTE: Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints"/>
+</head>
+
+<body>
+  <header class="container">
+    <h1 class="title">COPY-TRANSFORM-PASTE</h1>
+    <p class="subtitle">Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints</p>
+
+    <div class="links">
+      <a class="btn" href="https://arxiv.org/abs/XXXX.XXXXX" target="_blank" rel="noopener">arXiv</a>
+      <a class="btn" href="assets/files/paper.pdf" target="_blank" rel="noopener">PDF</a>
+      <a class="btn" href="https://github.com/RotemGat/ObjectsAlignment" target="_blank" rel="noopener">Code</a>
+      <a class="btn" href="#bibtex">BibTeX</a>
+    </div>
+
+    <figure class="hero">
+      <img src="assets/img/teaser.png" alt="Teaser figure"/>
+      <figcaption>Text-guided object-object alignment and iterative composition.</figcaption>
+    </figure>
+  </header>
+
+  <main class="container">
+    <section id="abstract" class="card">
+      <h2>Abstract</h2>
+      <p>
+        <!-- Replace with your final abstract -->
+        We study zero-shot 3D alignment of two given meshes, using a text prompt describing their spatial relation.
+        We directly optimize the relative pose at test time (translation, rotation, and isotropic scale) with CLIP-driven
+        gradients via a differentiable renderer, and augment language supervision with geometry-aware objectives:
+        a fractional soft-ICP attachment term and a penetration loss to discourage interpenetration.
+      </p>
+    </section>
+
+    <section id="method" class="card">
+      <h2>Method</h2>
+      <p>
+        Given source and target meshes and a prompt, we optimize pose parameters
+        <span class="mono">θ = (τ, q, s)</span> through differentiable rendering and a vision-language loss,
+        while enforcing contact and reducing collisions via geometric terms.
+      </p>
+
+      <div class="two-col">
+        <figure>
+          <img src="assets/img/pipeline.png" alt="Method pipeline diagram"/>
+          <figcaption>Pipeline overview: phased optimization with scheduled weights and camera zoom-in.</figcaption>
+        </figure>
+
+        <div class="bullets">
+          <h3>Key ingredients</h3>
+          <ul>
+            <li><b>Auto-orientation:</b> canonicalize the target (bilateral symmetry / upright frame).</li>
+            <li><b>Text guidance:</b> multi-view CLIP image–text similarity via differentiable rendering.</li>
+            <li><b>Fractional soft-ICP:</b> attach only a closest vertex fraction to encourage controlled contact.</li>
+            <li><b>Penetration loss:</b> penalize interpenetration beyond a small margin.</li>
+            <li><b>Scheduling:</b> increase geometry weights over phases + progressive camera zoom-in.</li>
+            <li><b>Robustness:</b> multiple random restarts + best-of-N selection.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="videos" class="card">
+      <h2>Optimization Process</h2>
+      <p class="hint">
+        Each clip shows the iterative optimization trajectory (random init → final aligned placement).
+      </p>
+
+      <div class="grid">
+        <div class="vidcard">
+          <video controls playsinline preload="metadata">
+            <source src="assets/videos/hotdog_process.mp4" type="video/mp4"/>
+          </video>
+          <div class="cap"><b>Hotdog in bun</b> — optimization process</div>
+        </div>
+
+        <div class="vidcard">
+          <video controls playsinline preload="metadata">
+            <source src="assets/videos/oyster_process.mp4" type="video/mp4"/>
+          </video>
+          <div class="cap"><b>Pearl in oyster</b> — optimization process</div>
+        </div>
+
+        <div class="vidcard">
+          <video controls playsinline preload="metadata">
+            <source src="assets/videos/necklace_process.mp4" type="video/mp4"/>
+          </video>
+          <div class="cap"><b>Necklace on character</b> — optimization process</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="card">
+      <h2>Orbit Results</h2>
+      <p class="hint">Final aligned configurations rendered as turntable/orbit videos.</p>
+
+      <div class="grid">
+        <div class="vidcard">
+          <video controls playsinline preload="metadata" loop>
+            <source src="assets/videos/hotdog.mp4" type="video/mp4"/>
+          </video>
+          <div class="cap"><b>Hotdog in bun</b></div>
+        </div>
+
+        <div class="vidcard">
+          <video controls playsinline preload="metadata" loop>
+            <source src="assets/videos/oyster.mp4" type="video/mp4"/>
+          </video>
+          <div class="cap"><b>Pearl in oyster</b></div>
+        </div>
+
+        <div class="vidcard">
+          <video controls playsinline preload="metadata" loop>
+            <source src="assets/videos/necklace.mp4" type="video/mp4"/>
+          </video>
+          <div class="cap"><b>Necklace</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="bibtex" class="card">
+      <h2>BibTeX</h2>
+      <pre class="code">
+@article{copytransformpaste2026,
+  title={Copy-Transform-Paste: Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints},
+  author={...},
+  journal={arXiv preprint arXiv:XXXX.XXXXX},
+  year={2026}
+}
+      </pre>
+      <p class="hint">Update author list + arXiv ID after submission.</p>
+    </section>
+
+    <footer class="footer">
+      <p>© 2026 • Project page for COPY-TRANSFORM-PASTE</p>
+    </footer>
+  </main>
+</body>
+</html>
