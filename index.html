@@ -5,226 +5,286 @@
   <title>COPY-TRANSFORM-PASTE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <!-- Nicer fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    :root { --pad: 16px; --gap: 12px; --maxw: 1200px; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      color: #111;
-      background: #fafafa;
+    :root{
+      --pad: 18px;
+      --gap: 12px;
+      --maxw: 1200px;
+
+      --bg: #0b0f19;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.085);
+      --border: rgba(255,255,255,0.10);
+
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+      --soft: rgba(255,255,255,0.58);
+
+      --shadow: 0 12px 34px rgba(0,0,0,0.28);
+      --radius: 18px;
     }
-    .wrap {
+
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 600px at 15% 5%, rgba(128, 90, 255, 0.22), transparent 65%),
+        radial-gradient(900px 600px at 85% 0%, rgba(0, 212, 255, 0.18), transparent 60%),
+        radial-gradient(900px 600px at 70% 95%, rgba(255, 122, 0, 0.14), transparent 65%),
+        var(--bg);
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .wrap{
       max-width: var(--maxw);
       margin: 0 auto;
       padding: var(--pad);
     }
-    h1 {
-      font-size: 1.6rem;
-      line-height: 1.2;
-      margin: 0 0 1.0rem;
-    }
-    h2 {
-      font-size: 1.1rem;
-      margin: 2rem 0 .75rem;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-    }
-    h3 {
-      font-size: 1rem;
-      margin: 0 0 0.5rem;
-      font-weight: 600;
-    }
 
-    /* --- Top links --- */
-    .toprow {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin: 0.6rem 0 1.25rem;
+    /* Header */
+    .header{
+      padding: 14px 0 6px;
     }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(0,0,0,0.10);
-      background: #fff;
-      text-decoration: none;
-      color: #111;
-      font-weight: 600;
-      font-size: 0.92rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    .title{
+      font-family: "Space Grotesk", Inter, system-ui, sans-serif;
+      font-size: 52px;
+      line-height: 1.02;
+      margin: 0;
+      letter-spacing: -0.03em;
     }
-    .btn:hover { border-color: rgba(0,0,0,0.20); }
-
-    /* --- Cards --- */
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    }
-
-    /* --- Captions --- */
-    .mesh-caption {
-      font-size: 0.78rem;
-      color: #555;
-      margin-top: 6px;
+    .subtitle{
+      margin: 10px 0 0;
+      font-size: 18px;
+      color: var(--muted);
       line-height: 1.35;
+      max-width: 980px;
+    }
+    .gradient{
+      background: linear-gradient(90deg, #a78bfa, #22d3ee, #fb923c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .links{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      margin: 16px 0 22px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+      font-weight: 650;
+      font-size: 14px;
+      color: var(--text);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.075);
+      border-color: rgba(255,255,255,0.18);
     }
 
-    /* --- Abstract --- */
-    .abstract {
-      font-size: 0.98rem;
-      line-height: 1.45;
-      color: #222;
+    /* Sections */
+    h2{
+      font-family: "Space Grotesk", Inter, system-ui, sans-serif;
+      margin: 26px 0 12px;
+      font-size: 18px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.82);
     }
 
-    /* --- Inline PDF (iframe) --- */
-    .pdf-frame {
+    .card{
+      background: linear-gradient(180deg, var(--panel), rgba(255,255,255,0.04));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .figure{
+      overflow:hidden;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.18);
+    }
+    img{
       width: 100%;
+      display:block;
       border: none;
       outline: none;
       box-shadow: none;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #fff;
-      display: block;
-    }
-    /* Heights tuned to feel like "figure" not a giant doc */
-    .pdf-teaser { height: 620px; }
-    .pdf-pipeline { height: 520px; }
-    @media (max-width: 900px){
-      .pdf-teaser { height: 420px; }
-      .pdf-pipeline { height: 380px; }
     }
 
-    /* --- Videos --- */
-    video {
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      display: block;
+    .caption{
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+    .caption b{ color: rgba(255,255,255,0.90); }
+
+    .abstract{
+      font-size: 15px;
+      line-height: 1.55;
+      color: rgba(255,255,255,0.86);
+    }
+
+    /* Videos */
+    video{
+      width:100%;
+      height:100%;
+      display:block;
       object-fit: cover;
-
-      background: #000;
       border: none !important;
       outline: none !important;
       box-shadow: none !important;
+      background:#000;
     }
-    .video-wrapper {
-      width: 100%;
+    .video-wrapper{
+      width:100%;
       aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
-
-      background: #000;
-      border-radius: 10px;
+      overflow:hidden;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background:#000;
     }
 
-    /* --- Images --- */
-    img {
-      max-width: 100%;
-      display: block;
-      border: none;
-      outline: none;
-      box-shadow: none;
-      border-radius: 10px;
-    }
-
-    /* --- Optimization examples --- */
-    .examples {
-      display: flex;
+    /* Optimization examples */
+    .examples{
+      display:flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 14px;
     }
-    .example {
-      background: #fff;
-      border-radius: 12px;
-      padding: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    .example{
+      background: linear-gradient(180deg, var(--panel2), rgba(255,255,255,0.04));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow);
     }
-    .example-prompt {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 8px;
+    .example-prompt{
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.90);
+      margin-bottom: 10px;
     }
-    .example-row {
-      display: flex;
-      flex-wrap: wrap;
+    .example-row{
+      display:flex;
+      flex-wrap:wrap;
       gap: var(--gap);
       align-items: flex-start;
     }
-    .example-row .video-col {
+    .video-col{
       flex: 1 1 320px;
       min-width: 260px;
-      display: flex;
+      max-width: 520px; /* smaller */
+      display:flex;
       flex-direction: column;
-      max-width: 520px; /* smaller videos */
+      gap: 6px;
     }
     @media (max-width: 900px){
-      .example-row .video-col { max-width: none; }
+      .video-col{ max-width: none; }
+      .title{ font-size: 40px; }
     }
-    .video-label {
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-bottom: 4px;
-      color: #555;
+    .video-label{
+      font-size: 12px;
+      font-weight: 650;
+      color: var(--soft);
+      padding-left: 2px;
     }
 
-    /* --- More alignment results section --- */
-    .more-results {
-      display: flex;
+    /* More results blocks */
+    .more-results{
+      display:flex;
       flex-direction: column;
-      gap: 1.5rem;
-      margin-top: 2rem;
+      gap: 14px;
+      margin-top: 6px;
     }
-    .result-example {
-      background: #fff;
-      border-radius: 12px;
-      padding: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    .result-example{
+      background: linear-gradient(180deg, var(--panel2), rgba(255,255,255,0.04));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow);
     }
-    .result-row {
-      display: flex;
-      flex-wrap: wrap;
+    .result-example h3{
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: 750;
+      color: rgba(255,255,255,0.92);
+    }
+    .result-row{
+      display:flex;
+      flex-wrap:wrap;
       gap: var(--gap);
       align-items: flex-start;
     }
-    .mesh-fig,
-    .orbit-col {
+    .mesh-fig, .orbit-col{
       flex: 1 1 0;
       min-width: 220px;
-      display: flex;
+      display:flex;
       flex-direction: column;
+      gap: 6px;
     }
-    .orbit-label {
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-bottom: 4px;
-      color: #555;
+    .mesh-caption{
+      font-size: 12px;
+      color: var(--soft);
+      padding-left: 2px;
+    }
+    .orbit-label{
+      font-size: 12px;
+      font-weight: 650;
+      color: var(--soft);
+      padding-left: 2px;
+    }
+
+    /* Footer small note (optional) */
+    .foot{
+      margin: 34px 0 12px;
+      text-align:center;
+      color: rgba(255,255,255,0.45);
+      font-size: 12px;
     }
   </style>
 </head>
 
 <body>
   <main class="wrap">
-    <h1>COPY-TRANSFORM-PASTE: Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints</h1>
+    <header class="header">
+      <h1 class="title"><span class="gradient">COPY-TRANSFORM-PASTE</span></h1>
+      <div class="subtitle">
+        Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints
+      </div>
 
-    <div class="toprow">
-      <a class="btn" href="https://arxiv.org/abs/XXXX.XXXXX" target="_blank" rel="noopener">arXiv</a>
-      <a class="btn" href="assets/paper.pdf" target="_blank" rel="noopener">PDF</a>
-      <a class="btn" href="https://github.com/RotemGat/ObjectsAlignment" target="_blank" rel="noopener">Code</a>
-    </div>
+      <div class="links">
+        <!-- Replace arXiv id + paper path -->
+        <a class="btn" href="https://arxiv.org/abs/XXXX.XXXXX" target="_blank" rel="noopener">arXiv</a>
+        <a class="btn" href="assets/paper.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
+        <a class="btn" href="https://github.com/RotemGat/ObjectsAlignment" target="_blank" rel="noopener">Code</a>
+      </div>
+    </header>
 
-    <!-- TEASER (inline PDF) -->
+    <!-- TEASER (PNG) -->
     <section class="card">
-      <iframe class="pdf-frame pdf-teaser" src="assets/imgs/teaser.pdf"></iframe>
-      <div class="mesh-caption">
+      <div class="figure">
+        <img src="assets/imgs/teaser.png" alt="Teaser figure">
+      </div>
+      <div class="caption">
         <b>Text-guided object-object alignment and iterative composition.</b>
         The figure shows four independent examples, each presenting the input meshes and text prompt alongside our alignment result.
         In addition, an iterative example demonstrates progressive assembly of a burger: the output of stage \(k\) is incorporated into the input of stage \(k{+}1\), gradually forming the final arrangement.
@@ -232,8 +292,8 @@
     </section>
 
     <!-- ABSTRACT -->
-    <section class="card" style="margin-top: 12px;">
-      <h2 style="margin-top:0;">Abstract</h2>
+    <h2>Abstract</h2>
+    <section class="card">
       <div class="abstract">
         We study zero-shot 3D alignment of two given meshes, using a text prompt describing their spatial relation---an essential capability for content creation and scene assembly. Earlier approaches primarily rely on geometric alignment procedures, while recent work leverages pretrained 2D diffusion models to model language-conditioned object-object spatial relationships. In contrast, we directly optimize the relative pose at test time, updating translation, rotation, and isotropic scale with CLIP-driven gradients via a differentiable renderer, without training a new model.
         Our framework augments language supervision with geometry-aware objectives: a variant of soft-Iterative Closest Point (ICP) term to encourage surface attachment and a penetration loss to discourage interpenetration. A phased schedule strengthens contact constraints over time, and camera control concentrates the optimization on the interaction region.
@@ -242,12 +302,15 @@
       </div>
     </section>
 
-    <!-- METHOD PIPELINE (inline PDF) -->
+    <!-- METHOD PIPELINE (PNG) -->
     <h2>Method Pipeline</h2>
     <section class="card">
-      <iframe class="pdf-frame pdf-pipeline" src="assets/imgs/pipeline.pdf"></iframe>
-      <div class="mesh-caption">
-        <b>Overview of the proposed pipeline.</b> Given two meshes and a text prompt, we optimize the relative pose and scale to produce a text-consistent alignment over $P$ phases. In each phase, we compose the scene, render with a differentiable renderer to obtain a semantic loss, and compute geometric losses.
+      <div class="figure">
+        <img src="assets/imgs/pipeline.png" alt="Method pipeline">
+      </div>
+      <div class="caption">
+        <b>Overview of the proposed pipeline.</b>
+        Given two meshes and a text prompt, we optimize the relative pose and scale to produce a text-consistent alignment over $P$ phases. In each phase, we compose the scene, render with a differentiable renderer to obtain a semantic loss, and compute geometric losses.
         The best result of phase \(i\) initializes phase \(i{+}1\); across phases we increase the fractional soft-ICP and penetration weights and progressively zoom the cameras in. The final output is an aligned 3D placement of the two meshes.
       </div>
     </section>
@@ -256,7 +319,6 @@
     <h2>Optimization Process Examples</h2>
     <section class="examples">
 
-      <!-- Oyster -->
       <article class="example">
         <div class="example-prompt">Prompt: “Oyster with a pearl inside it”</div>
         <div class="example-row">
@@ -267,7 +329,7 @@
             </div>
           </div>
           <div class="video-col">
-            <div class="video-label">Final result</div>
+            <div class="video-label">Final result (orbit)</div>
             <div class="video-wrapper">
               <video autoplay muted loop playsinline src="assets/videos/oyster.mp4"></video>
             </div>
@@ -275,7 +337,6 @@
         </div>
       </article>
 
-      <!-- Stinky Pete -->
       <article class="example">
         <div class="example-prompt">Prompt: “Man wearing a cowboy hat”</div>
         <div class="example-row">
@@ -286,7 +347,7 @@
             </div>
           </div>
           <div class="video-col">
-            <div class="video-label">Final result</div>
+            <div class="video-label">Final result (orbit)</div>
             <div class="video-wrapper">
               <video autoplay muted loop playsinline src="assets/videos/stinky_pete.mp4"></video>
             </div>
@@ -294,7 +355,6 @@
         </div>
       </article>
 
-      <!-- Hotdog -->
       <article class="example">
         <div class="example-prompt">Prompt: “Hot dog sausage sits inside a bun”</div>
         <div class="example-row">
@@ -305,7 +365,7 @@
             </div>
           </div>
           <div class="video-col">
-            <div class="video-label">Final result</div>
+            <div class="video-label">Final result (orbit)</div>
             <div class="video-wrapper">
               <video autoplay muted loop playsinline src="assets/videos/hotdog.mp4"></video>
             </div>
@@ -313,7 +373,6 @@
         </div>
       </article>
 
-      <!-- Necklace -->
       <article class="example">
         <div class="example-prompt">Prompt: “A stand with a golden necklace”</div>
         <div class="example-row">
@@ -324,7 +383,7 @@
             </div>
           </div>
           <div class="video-col">
-            <div class="video-label">Final result</div>
+            <div class="video-label">Final result (orbit)</div>
             <div class="video-wrapper">
               <video autoplay muted loop playsinline src="assets/videos/necklace.mp4"></video>
             </div>
@@ -334,7 +393,7 @@
 
     </section>
 
-    <!-- MORE RESULTS -->
+    <!-- MORE RESULTS (same as your supp) -->
     <h2>More Alignment Results</h2>
     <section class="more-results">
 
@@ -342,11 +401,11 @@
         <h3>"A pizza cutter cuts a pizza"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <img src="assets/imgs/pizza_solo.png" alt="Pizza mesh">
+            <div class="figure"><img src="assets/imgs/pizza_solo.png" alt="Pizza mesh"></div>
             <div class="mesh-caption">Pizza mesh</div>
           </div>
           <div class="mesh-fig">
-            <img src="assets/imgs/pizza_cutter.png" alt="Pizza cutter mesh">
+            <div class="figure"><img src="assets/imgs/pizza_cutter.png" alt="Pizza cutter mesh"></div>
             <div class="mesh-caption">Pizza cutter mesh</div>
           </div>
           <div class="orbit-col">
@@ -362,11 +421,11 @@
         <h3>"Captain America holding a shield"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <img src="assets/imgs/captain_america.png" alt="Captain America mesh">
+            <div class="figure"><img src="assets/imgs/captain_america.png" alt="Captain America mesh"></div>
             <div class="mesh-caption">Captain America mesh</div>
           </div>
           <div class="mesh-fig">
-            <img src="assets/imgs/shield.png" alt="Shield mesh">
+            <div class="figure"><img src="assets/imgs/shield.png" alt="Shield mesh"></div>
             <div class="mesh-caption">Shield mesh</div>
           </div>
           <div class="orbit-col">
@@ -382,11 +441,11 @@
         <h3>"Nigiri"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <img src="assets/imgs/rice.png" alt="Rice mesh">
+            <div class="figure"><img src="assets/imgs/rice.png" alt="Rice mesh"></div>
             <div class="mesh-caption">Rice mesh</div>
           </div>
           <div class="mesh-fig">
-            <img src="assets/imgs/fish.png" alt="Fish mesh">
+            <div class="figure"><img src="assets/imgs/fish.png" alt="Fish mesh"></div>
             <div class="mesh-caption">Fish mesh</div>
           </div>
           <div class="orbit-col">
@@ -402,11 +461,11 @@
         <h3>"Slice of toast on top of a slice of cheese toast"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <img src="assets/imgs/toast_solo.png" alt="Toast mesh">
+            <div class="figure"><img src="assets/imgs/toast_solo.png" alt="Toast mesh"></div>
             <div class="mesh-caption">Toast mesh</div>
           </div>
           <div class="mesh-fig">
-            <img src="assets/imgs/toast_top_solo.png" alt="Cheese toast mesh">
+            <div class="figure"><img src="assets/imgs/toast_top_solo.png" alt="Cheese toast mesh"></div>
             <div class="mesh-caption">Cheese toast mesh</div>
           </div>
           <div class="orbit-col">
@@ -422,11 +481,11 @@
         <h3>"A target with an arrow stuck in it"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <img src="assets/imgs/target.png" alt="Target mesh">
+            <div class="figure"><img src="assets/imgs/target.png" alt="Target mesh"></div>
             <div class="mesh-caption">Target mesh</div>
           </div>
           <div class="mesh-fig">
-            <img src="assets/imgs/arrow.png" alt="Arrow mesh">
+            <div class="figure"><img src="assets/imgs/arrow.png" alt="Arrow mesh"></div>
             <div class="mesh-caption">Arrow mesh</div>
           </div>
           <div class="orbit-col">
@@ -442,11 +501,11 @@
         <h3>"A ceramic pot with a half-open lid"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <img src="assets/imgs/pot.png" alt="Ceramic pot mesh">
+            <div class="figure"><img src="assets/imgs/pot.png" alt="Ceramic pot mesh"></div>
             <div class="mesh-caption">Ceramic pot mesh</div>
           </div>
           <div class="mesh-fig">
-            <img src="assets/imgs/lid.png" alt="Pot lid mesh">
+            <div class="figure"><img src="assets/imgs/lid.png" alt="Pot lid mesh"></div>
             <div class="mesh-caption">Lid mesh</div>
           </div>
           <div class="orbit-col">
@@ -462,11 +521,11 @@
         <h3>"A red lipstick"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <img src="assets/imgs/lipstick_cover.png" alt="Lipstick cap mesh">
+            <div class="figure"><img src="assets/imgs/lipstick_cover.png" alt="Lipstick cap mesh"></div>
             <div class="mesh-caption">Lipstick cover mesh</div>
           </div>
           <div class="mesh-fig">
-            <img src="assets/imgs/lipstick.png" alt="Red lipstick mesh">
+            <div class="figure"><img src="assets/imgs/lipstick.png" alt="Red lipstick mesh"></div>
             <div class="mesh-caption">Red lipstick mesh</div>
           </div>
           <div class="orbit-col">
@@ -482,11 +541,11 @@
         <h3>"Ladybug with its shell on top"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <img src="assets/imgs/ladybug.png" alt="Ladybug mesh">
+            <div class="figure"><img src="assets/imgs/ladybug.png" alt="Ladybug mesh"></div>
             <div class="mesh-caption">Ladybug body mesh</div>
           </div>
           <div class="mesh-fig">
-            <img src="assets/imgs/shell.png" alt="Shell mesh">
+            <div class="figure"><img src="assets/imgs/shell.png" alt="Shell mesh"></div>
             <div class="mesh-caption">Shell mesh</div>
           </div>
           <div class="orbit-col">
@@ -500,6 +559,7 @@
 
     </section>
 
+    <div class="foot">© 2026 • COPY-TRANSFORM-PASTE</div>
   </main>
 </body>
 </html>
