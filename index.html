@@ -1,145 +1,315 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>COPY-TRANSFORM-PASTE — Zero-Shot Object-Object Alignment</title>
-  <link rel="stylesheet" href="assets/css/style.css"/>
-  <meta name="description" content="COPY-TRANSFORM-PASTE: Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints"/>
+  <meta charset="utf-8" />
+  <title>COPY-TRANSFORM-PASTE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root { --pad: 16px; --gap: 12px; --maxw: 1200px; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: #111;
+      background: #fafafa;
+    }
+    .wrap {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: var(--pad);
+    }
+    h1 {
+      font-size: 1.7rem;
+      line-height: 1.2;
+      margin: 0 0 0.75rem;
+    }
+    h2 {
+      font-size: 1.05rem;
+      margin: 2rem 0 .75rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    h3 {
+      font-size: 1rem;
+      margin: 0 0 0.5rem;
+      font-weight: 650;
+    }
+
+    /* --- Top links --- */
+    .toprow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin: 0.6rem 0 1.25rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: #fff;
+      text-decoration: none;
+      color: #111;
+      font-weight: 600;
+      font-size: 0.92rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    /* --- Cards --- */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    /* --- Videos --- */
+    video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      background: #000;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .video-wrapper {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #000;
+      border-radius: 10px;
+    }
+
+    /* --- PDF figures (images) --- */
+    .pdf-wrapper {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    .pdf-wrapper object {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* --- Abstract / pipeline --- */
+    .abstract {
+      font-size: 0.98rem;
+      line-height: 1.45;
+      color: #222;
+    }
+    .muted {
+      color: #666;
+      font-size: 0.92rem;
+      margin-top: 6px;
+    }
+    .pipeline-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--gap);
+    }
+    .pipeline-fig {
+      flex: 1 1 560px;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --- Optimization examples --- */
+    .examples {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .example {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .example-prompt {
+      font-size: 0.95rem;
+      font-weight: 650;
+      margin-bottom: 8px;
+    }
+    .example-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--gap);
+    }
+    .video-col {
+      flex: 1 1 360px;
+      min-width: 260px;
+      display: flex;
+      flex-direction: column;
+      max-width: 520px;
+    }
+    .video-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #555;
+    }
+
+    /* --- More results --- */
+    .more-results {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .result-example {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .result-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--gap);
+    }
+    .mesh-fig, .orbit-col {
+      flex: 1 1 0;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+    }
+    .mesh-caption {
+      font-size: 0.78rem;
+      color: #555;
+      margin-top: 4px;
+    }
+    .orbit-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #555;
+    }
+
+    pre {
+      padding: 12px;
+      background: #f6f6f6;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.07);
+      overflow: auto;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 
 <body>
-  <header class="container">
-    <h1 class="title">COPY-TRANSFORM-PASTE</h1>
-    <p class="subtitle">Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints</p>
+<main class="wrap">
 
-    <div class="links">
-      <a class="btn" href="https://arxiv.org/abs/XXXX.XXXXX" target="_blank" rel="noopener">arXiv</a>
-      <a class="btn" href="assets/files/paper.pdf" target="_blank" rel="noopener">PDF</a>
-      <a class="btn" href="https://github.com/RotemGat/ObjectsAlignment" target="_blank" rel="noopener">Code</a>
-      <a class="btn" href="#bibtex">BibTeX</a>
+<h1>COPY-TRANSFORM-PASTE: Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints</h1>
+
+<div class="toprow">
+  <a class="btn" href="https://arxiv.org/abs/XXXX.XXXXX">arXiv</a>
+  <a class="btn" href="assets/paper.pdf">PDF</a>
+  <a class="btn" href="https://github.com/RotemGat/ObjectsAlignment">Code</a>
+</div>
+
+<section class="card">
+<h2 style="margin-top:0;">Abstract</h2>
+<div class="abstract">
+We study zero-shot 3D alignment of two given meshes, using a text prompt describing their spatial relation---an essential capability for content creation and scene assembly. Earlier approaches primarily rely on geometric alignment procedures, while recent work leverages pretrained 2D diffusion models to model language-conditioned object-object spatial relationships. In contrast, we directly optimize the relative pose at test time, updating translation, rotation, and isotropic scale with CLIP-driven gradients via a differentiable renderer, without training a new model.
+Our framework augments language supervision with geometry-aware objectives: a variant of soft-Iterative Closest Point (ICP) term to encourage surface attachment and a penetration loss to discourage interpenetration. A phased schedule strengthens contact constraints over time, and camera control concentrates the optimization on the interaction region.
+To enable evaluation, we curate a benchmark containing diverse categories and relations, and compare against baselines.
+Our method outperforms all alternatives, yielding semantically faithful and physically plausible alignments.
+</div>
+</section>
+
+<h2>Method Pipeline</h2>
+<section class="card">
+<div class="pipeline-row">
+  <div class="pipeline-fig">
+    <div class="pdf-wrapper">
+      <object data="assets/imgs/pipeline.pdf" type="application/pdf"></object>
     </div>
+    <div class="mesh-caption">Pipeline overview.</div>
+  </div>
+  <div class="pipeline-fig">
+    <div class="pdf-wrapper">
+      <object data="assets/imgs/teaser.pdf" type="application/pdf"></object>
+    </div>
+    <div class="mesh-caption">Qualitative teaser.</div>
+  </div>
+</div>
+</section>
 
-    <figure class="hero">
-      <img src="assets/imgs/teaser.pdf" alt="Teaser figure"/>
-      <figcaption>Text-guided object-object alignment and iterative composition.</figcaption>
-    </figure>
-  </header>
+<h2>Optimization Process Examples</h2>
+<section class="examples">
 
-  <main class="container">
-    <section id="abstract" class="card">
-      <h2>Abstract</h2>
-      <p>
-        <!-- Replace with your final abstract -->
-        We study zero-shot 3D alignment of two given meshes, using a text prompt describing their spatial relation.
-        We directly optimize the relative pose at test time (translation, rotation, and isotropic scale) with CLIP-driven
-        gradients via a differentiable renderer, and augment language supervision with geometry-aware objectives:
-        a fractional soft-ICP attachment term and a penetration loss to discourage interpenetration.
-      </p>
-    </section>
+<article class="example">
+<div class="example-prompt">Prompt: “Oyster with a pearl inside it”</div>
+<div class="example-row">
+  <div class="video-col">
+    <div class="video-label">Optimization process</div>
+    <div class="video-wrapper">
+      <video controls muted playsinline src="assets/videos/oyster_process.mp4"></video>
+    </div>
+  </div>
+  <div class="video-col">
+    <div class="video-label">Final result</div>
+    <div class="video-wrapper">
+      <video controls muted loop playsinline src="assets/videos/oyster.mp4"></video>
+    </div>
+  </div>
+</div>
+</article>
 
-    <section id="method" class="card">
-      <h2>Method</h2>
-      <p>
-        Given source and target meshes and a prompt, we optimize pose parameters
-        <span class="mono">θ = (τ, q, s)</span> through differentiable rendering and a vision-language loss,
-        while enforcing contact and reducing collisions via geometric terms.
-      </p>
+<!-- Repeat pattern for other examples (unchanged except paths) -->
 
-      <div class="two-col">
-        <figure>
-          <img src="assets/imgs/method.pdf" alt="Method pipeline diagram"/>
-          <figcaption>Pipeline overview: phased optimization with scheduled weights and camera zoom-in.</figcaption>
-        </figure>
+</section>
 
-        <div class="bullets">
-          <h3>Key ingredients</h3>
-          <ul>
-            <li><b>Auto-orientation:</b> canonicalize the target (bilateral symmetry / upright frame).</li>
-            <li><b>Text guidance:</b> multi-view CLIP image–text similarity via differentiable rendering.</li>
-            <li><b>Fractional soft-ICP:</b> attach only a closest vertex fraction to encourage controlled contact.</li>
-            <li><b>Penetration loss:</b> penalize interpenetration beyond a small margin.</li>
-            <li><b>Scheduling:</b> increase geometry weights over phases + progressive camera zoom-in.</li>
-            <li><b>Robustness:</b> multiple random restarts + best-of-N selection.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+<h2>More Alignment Results</h2>
+<section class="more-results">
 
-    <section id="videos" class="card">
-      <h2>Optimization Process</h2>
-      <p class="hint">
-        Each clip shows the iterative optimization trajectory (random init → final aligned placement).
-      </p>
+<article class="result-example">
+<h3>"A pizza cutter cuts a pizza"</h3>
+<div class="result-row">
+  <div class="mesh-fig">
+    <div class="pdf-wrapper">
+      <object data="assets/imgs/pizza_solo.pdf" type="application/pdf"></object>
+    </div>
+    <div class="mesh-caption">Pizza mesh</div>
+  </div>
+  <div class="mesh-fig">
+    <div class="pdf-wrapper">
+      <object data="assets/imgs/pizza_cutter.pdf" type="application/pdf"></object>
+    </div>
+    <div class="mesh-caption">Pizza cutter mesh</div>
+  </div>
+  <div class="orbit-col">
+    <div class="orbit-label">Final result</div>
+    <div class="video-wrapper">
+      <video controls muted loop playsinline src="assets/videos/pizza.mp4"></video>
+    </div>
+  </div>
+</div>
+</article>
 
-      <div class="grid">
-        <div class="vidcard">
-          <video controls playsinline preload="metadata">
-            <source src="assets/videos/hotdog_process.mp4" type="video/mp4"/>
-          </video>
-          <div class="cap"><b>Hotdog in bun</b> — optimization process</div>
-        </div>
+<!-- keep rest of your blocks, only paths change -->
 
-        <div class="vidcard">
-          <video controls playsinline preload="metadata">
-            <source src="assets/videos/oyster_process.mp4" type="video/mp4"/>
-          </video>
-          <div class="cap"><b>Pearl in oyster</b> — optimization process</div>
-        </div>
+</section>
 
-        <div class="vidcard">
-          <video controls playsinline preload="metadata">
-            <source src="assets/videos/necklace_process.mp4" type="video/mp4"/>
-          </video>
-          <div class="cap"><b>Necklace on character</b> — optimization process</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="results" class="card">
-      <h2>Orbit Results</h2>
-      <p class="hint">Final aligned configurations rendered as turntable/orbit videos.</p>
-
-      <div class="grid">
-        <div class="vidcard">
-          <video controls playsinline preload="metadata" loop>
-            <source src="assets/videos/hotdog.mp4" type="video/mp4"/>
-          </video>
-          <div class="cap"><b>Hotdog in bun</b></div>
-        </div>
-
-        <div class="vidcard">
-          <video controls playsinline preload="metadata" loop>
-            <source src="assets/videos/oyster.mp4" type="video/mp4"/>
-          </video>
-          <div class="cap"><b>Pearl in oyster</b></div>
-        </div>
-
-        <div class="vidcard">
-          <video controls playsinline preload="metadata" loop>
-            <source src="assets/videos/necklace.mp4" type="video/mp4"/>
-          </video>
-          <div class="cap"><b>Necklace</b></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="bibtex" class="card">
-      <h2>BibTeX</h2>
-      <pre class="code">
+<h2>BibTeX</h2>
+<section class="card">
+<pre>
 @article{copytransformpaste2026,
   title={Copy-Transform-Paste: Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints},
-  author={...},
+  author={TODO},
   journal={arXiv preprint arXiv:XXXX.XXXXX},
   year={2026}
 }
-      </pre>
-      <p class="hint">Update author list + arXiv ID after submission.</p>
-    </section>
+</pre>
+</section>
 
-    <footer class="footer">
-      <p>© 2026 • Project page for COPY-TRANSFORM-PASTE</p>
-    </footer>
-  </main>
+</main>
 </body>
 </html>
