@@ -19,12 +19,12 @@
       padding: var(--pad);
     }
     h1 {
-      font-size: 1.7rem;
+      font-size: 1.6rem;
       line-height: 1.2;
-      margin: 0 0 0.75rem;
+      margin: 0 0 1.25rem;
     }
     h2 {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       margin: 2rem 0 .75rem;
       text-transform: uppercase;
       letter-spacing: .04em;
@@ -33,6 +33,70 @@
       font-size: 1rem;
       margin: 0 0 0.5rem;
       font-weight: 600;
+    }
+
+    /* --- Remove ANY frame appearance around videos --- */
+    video {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      display: block;
+      object-fit: cover;
+      background: #000;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .video-wrapper {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      background: #000;
+      border-radius: 10px;
+    }
+
+    /* --- Images --- */
+    img {
+      max-width: 100%;
+      display: block;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      border-radius: 10px;
+    }
+
+    /* --- Clickable "PDF figure" shown as PNG (no PDF UI) --- */
+    .figlink {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .figlink:hover .zoomhint { opacity: 1; }
+    .figwrap {
+      position: relative;
+    }
+    .zoomhint {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      background: rgba(0,0,0,0.60);
+      color: #fff;
+      font-size: 0.78rem;
+      padding: 6px 8px;
+      border-radius: 10px;
+      opacity: 0;
+      transition: opacity 120ms ease;
+    }
+
+    /* --- Sections cards --- */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
 
     /* --- Top links --- */
@@ -57,66 +121,15 @@
       font-size: 0.92rem;
       box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
-    .btn:hover { border-color: rgba(0,0,0,0.20); }
 
-    /* --- Cards --- */
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    }
-
-    /* --- Videos --- */
-    video {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      background: #000;
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
-    }
-    .video-wrapper {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      background: #000;
-      border-radius: 10px;
-    }
-
-    /* --- PDF figures --- */
-    .pdf-wrapper {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border-radius: 10px;
-      background: #fff;
-    }
-    .pdf-wrapper object {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Teaser should be wide (not forced to 16:9) */
-    .pdf-wrapper.teaser {
-      aspect-ratio: auto;
-    }
-    .pdf-wrapper.teaser object {
-      height: 620px; /* adjust if needed */
-    }
-    @media (max-width: 900px){
-      .pdf-wrapper.teaser object { height: 420px; }
-    }
-
-    /* --- Abstract --- */
+    /* --- Abstract text --- */
     .abstract {
       font-size: 0.98rem;
       line-height: 1.45;
       color: #222;
     }
+
+    /* --- Captions --- */
     .mesh-caption {
       font-size: 0.78rem;
       color: #555;
@@ -169,7 +182,7 @@
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
-      margin-top: 0.25rem;
+      margin-top: 2rem;
     }
     .result-example {
       background: #fff;
@@ -209,12 +222,15 @@
       <a class="btn" href="https://github.com/RotemGat/ObjectsAlignment" target="_blank" rel="noopener">Code</a>
     </div>
 
-    <!-- TEASER ON TOP -->
+    <!-- TEASER ON TOP: show PNG preview, link opens the PDF -->
     <section class="card">
-      <div class="pdf-wrapper teaser">
-        <!-- update filename if different -->
-        <object data="assets/imgs/teaser.pdf" type="application/pdf"></object>
-      </div>
+      <a class="figlink" href="assets/imgs/teaser.pdf" target="_blank" rel="noopener">
+        <div class="figwrap">
+          <!-- teaser preview png -->
+          <img src="assets/imgs/teaser.png" alt="Teaser figure">
+          <div class="zoomhint">Open PDF</div>
+        </div>
+      </a>
       <div class="mesh-caption">
         <b>Text-guided object-object alignment and iterative composition.</b>
         The figure shows four independent examples, each presenting the input meshes and text prompt alongside our alignment result.
@@ -233,14 +249,19 @@
       </div>
     </section>
 
-    <!-- PIPELINE -->
+    <!-- METHOD PIPELINE: show PNG preview, link opens the PDF -->
     <h2>Method Pipeline</h2>
     <section class="card">
-      <div class="pdf-wrapper">
-        <!-- update filename if different -->
-        <object data="assets/imgs/method.pdf" type="application/pdf"></object>
+      <a class="figlink" href="assets/imgs/pipeline.pdf" target="_blank" rel="noopener">
+        <div class="figwrap">
+          <img src="assets/imgs/pipeline.png" alt="Method pipeline figure">
+          <div class="zoomhint">Open PDF</div>
+        </div>
+      </a>
+      <div class="mesh-caption">
+        <b>Overview of the proposed pipeline.</b> Given two meshes and a text prompt, we optimize the relative pose and scale to produce a text-consistent alignment over $P$ phases. In each phase, we compose the scene, render with a differentiable renderer to obtain a semantic loss, and compute geometric losses.
+        The best result of phase \(i\) initializes phase \(i{+}1\); across phases we increase the fractional soft-ICP and penetration weights and progressively zoom the cameras in. The final output is an aligned 3D placement of the two meshes.
       </div>
-      <div class="mesh-caption">Pipeline overview.</div>
     </section>
 
     <!-- OPTIMIZATION VIDEOS -->
@@ -259,7 +280,8 @@
           <div class="video-col">
             <div class="video-label">Final result</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/oyster.mp4"></video>
+              <!-- autoplay orbit -->
+              <video autoplay muted loop playsinline controls src="assets/videos/oyster.mp4"></video>
             </div>
           </div>
         </div>
@@ -277,7 +299,7 @@
           <div class="video-col">
             <div class="video-label">Final result</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/stinky_pete.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/stinky_pete.mp4"></video>
             </div>
           </div>
         </div>
@@ -295,7 +317,7 @@
           <div class="video-col">
             <div class="video-label">Final result</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/hotdog.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/hotdog.mp4"></video>
             </div>
           </div>
         </div>
@@ -313,7 +335,7 @@
           <div class="video-col">
             <div class="video-label">Final result</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/necklace.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/necklace.mp4"></video>
             </div>
           </div>
         </div>
@@ -321,7 +343,7 @@
 
     </section>
 
-    <!-- MORE RESULTS (ALL from your supplementary) -->
+    <!-- MORE RESULTS (same as supp, but images are PNG now) -->
     <h2>More Alignment Results</h2>
     <section class="more-results">
 
@@ -329,21 +351,17 @@
         <h3>"A pizza cutter cuts a pizza"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/pizza_solo.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/pizza_solo.png" alt="Pizza mesh">
             <div class="mesh-caption">Pizza mesh</div>
           </div>
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/pizza_cutter.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/pizza_cutter.png" alt="Pizza cutter mesh">
             <div class="mesh-caption">Pizza cutter mesh</div>
           </div>
           <div class="orbit-col">
             <div class="orbit-label">Final result</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/pizza.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/pizza.mp4"></video>
             </div>
           </div>
         </div>
@@ -353,21 +371,17 @@
         <h3>"Captain America holding a shield"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/captain_america.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/captain_america.png" alt="Captain America mesh">
             <div class="mesh-caption">Captain America mesh</div>
           </div>
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/shield.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/shield.png" alt="Shield mesh">
             <div class="mesh-caption">Shield mesh</div>
           </div>
           <div class="orbit-col">
             <div class="orbit-label">Final result</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/captain_america.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/captain_america.mp4"></video>
             </div>
           </div>
         </div>
@@ -377,21 +391,17 @@
         <h3>"Nigiri"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/rice.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/rice.png" alt="Rice mesh">
             <div class="mesh-caption">Rice mesh</div>
           </div>
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/fish.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/fish.png" alt="Fish mesh">
             <div class="mesh-caption">Fish mesh</div>
           </div>
           <div class="orbit-col">
             <div class="orbit-label">Final result</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/nigiri.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/nigiri.mp4"></video>
             </div>
           </div>
         </div>
@@ -401,21 +411,17 @@
         <h3>"Slice of toast on top of a slice of cheese toast"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/toast_solo.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/toast_solo.png" alt="Toast mesh">
             <div class="mesh-caption">Toast mesh</div>
           </div>
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/toast_top_solo.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/toast_top_solo.png" alt="Cheese toast mesh">
             <div class="mesh-caption">Cheese toast mesh</div>
           </div>
           <div class="orbit-col">
             <div class="orbit-label">Final result</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/toast2.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/toast2.mp4"></video>
             </div>
           </div>
         </div>
@@ -425,21 +431,17 @@
         <h3>"A target with an arrow stuck in it"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/target.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/target.png" alt="Target mesh">
             <div class="mesh-caption">Target mesh</div>
           </div>
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/arrow.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/arrow.png" alt="Arrow mesh">
             <div class="mesh-caption">Arrow mesh</div>
           </div>
           <div class="orbit-col">
             <div class="orbit-label">Orbit view of aligned pair</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/target.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/target.mp4"></video>
             </div>
           </div>
         </div>
@@ -449,21 +451,17 @@
         <h3>"A ceramic pot with a half-open lid"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/pot.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/pot.png" alt="Ceramic pot mesh">
             <div class="mesh-caption">Ceramic pot mesh</div>
           </div>
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/lid.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/lid.png" alt="Pot lid mesh">
             <div class="mesh-caption">Lid mesh</div>
           </div>
           <div class="orbit-col">
             <div class="orbit-label">Orbit view of aligned pair</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/pot.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/pot.mp4"></video>
             </div>
           </div>
         </div>
@@ -473,21 +471,17 @@
         <h3>"A red lipstick"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/lipstick_cover.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/lipstick_cover.png" alt="Lipstick cap mesh">
             <div class="mesh-caption">Lipstick cover mesh</div>
           </div>
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/lipstick.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/lipstick.png" alt="Red lipstick mesh">
             <div class="mesh-caption">Red lipstick mesh</div>
           </div>
           <div class="orbit-col">
             <div class="orbit-label">Orbit view of aligned pair</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/lipstick.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/lipstick.mp4"></video>
             </div>
           </div>
         </div>
@@ -497,21 +491,17 @@
         <h3>"Ladybug with its shell on top"</h3>
         <div class="result-row">
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/ladybug.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/ladybug.png" alt="Ladybug mesh">
             <div class="mesh-caption">Ladybug body mesh</div>
           </div>
           <div class="mesh-fig">
-            <div class="pdf-wrapper">
-              <object data="assets/imgs/shell.pdf" type="application/pdf"></object>
-            </div>
+            <img src="assets/imgs/shell.png" alt="Shell mesh">
             <div class="mesh-caption">Shell mesh</div>
           </div>
           <div class="orbit-col">
             <div class="orbit-label">Orbit view of aligned pair</div>
             <div class="video-wrapper">
-              <video controls muted loop playsinline src="assets/videos/ladybug.mp4"></video>
+              <video autoplay muted loop playsinline controls src="assets/videos/ladybug.mp4"></video>
             </div>
           </div>
         </div>
