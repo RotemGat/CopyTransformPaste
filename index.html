@@ -168,10 +168,10 @@
     /* --- ONLY CHANGE: make images have same fixed height inside .figure (keeps ref images aligned) --- */
     .mesh-fig .figure,
     .mesh-fig .figure img{
-      height: 170px;
+      height: 170px;              /* pick a single height for ALL mesh/ref thumbnails */
     }
     .mesh-fig .figure img{
-      object-fit: contain;
+      object-fit: contain;        /* preserves aspect ratio (no cropping), consistent height */
       background: #fff;
     }
     /* --- end only change --- */
@@ -190,7 +190,7 @@
       width:100%;
       height:100%;
       display:block;
-      object-fit: cover; /* default behavior */
+      object-fit: cover;
       border: none !important;
       outline: none !important;
       box-shadow: none !important;
@@ -204,12 +204,13 @@
       border: 1px solid rgba(0,0,0,0.10);
       background:#000;
     }
-
-    /* ✅ FIX: Image-guidance orbit videos should NOT crop — show full frame */
-    #img-carousel .orbit-col video{
-      object-fit: contain;
-      background: #000;
+  
+    /* FIX: image-guidance orbit videos are 1080x1080 (square).
+    Make only the image-guidance orbit wrapper square to remove side black bars. */
+    #img-carousel .orbit-col .video-wrapper{
+      aspect-ratio: 1 / 1;
     }
+
 
     /* Carousel shell */
     .carousel{
@@ -328,7 +329,7 @@
       .title{ font-size: 40px; }
       .video-col{ max-width: none; }
       .section-title{ font-size: 24px; }
-      .mesh-fig .figure, .mesh-fig .figure img{ height: 160px; }
+      .mesh-fig .figure, .mesh-fig .figure img{ height: 160px; } /* responsive */
     }
 
     .foot{
@@ -341,6 +342,7 @@
 </head>
 
 <body>
+  <!-- YOUR ORIGINAL HTML BODY (UNCHANGED) -->
   <main class="wrap">
     <header class="header">
       <h1 class="title"><span class="gradient-text">COPY-TRANSFORM-PASTE</span></h1>
@@ -491,6 +493,79 @@
             </div>
           </div>
         </div>
+
+        <div class="slide" data-title="&quot;Captain America holding a shield&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/captain_america.png" alt="Captain America mesh"></div>
+              <div class="mesh-caption">Captain America mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/shield.png" alt="Shield mesh"></div>
+              <div class="mesh-caption">Shield mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/captain_america.mp4"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide" data-title="&quot;Nigiri&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/rice.png" alt="Rice mesh"></div>
+              <div class="mesh-caption">Rice mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/fish.png" alt="Fish mesh"></div>
+              <div class="mesh-caption">Fish mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/nigiri.mp4"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide" data-title="&quot;Slice of toast on top of a slice of cheese toast&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/toast_solo.png" alt="Toast mesh"></div>
+              <div class="mesh-caption">Toast mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/toast_top_solo.png" alt="Cheese toast mesh"></div>
+              <div class="mesh-caption">Cheese toast mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/toast2.mp4"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide" data-title="&quot;A target with an arrow stuck in it&quot;">
+          <div class="result-row">
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/target.png" alt="Target mesh"></div>
+              <div class="mesh-caption">Target mesh</div>
+            </div>
+            <div class="mesh-fig">
+              <div class="figure"><img src="assets/imgs/arrow.png" alt="Arrow mesh"></div>
+              <div class="mesh-caption">Arrow mesh</div>
+            </div>
+            <div class="orbit-col">
+              <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto" src="assets/videos/target.mp4"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
