@@ -102,10 +102,22 @@
     .tagline{
       margin: 14px auto 0;
       max-width: 980px;
-      font-size: 16px;
-      line-height: 1.45;
-      color: rgba(0,0,0,0.70);
+      font-family: "Space Grotesk", Inter, system-ui, sans-serif; /* modern */
+      font-size: 22px;      /* BIG */
+      line-height: 1.35;
+      color: rgba(0,0,0,0.82);
     }
+    .tagline .emph{
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+    @media (max-width: 900px){
+      .tagline{ font-size: 18px; }
+    }
+
     .authors{
       margin: 10px auto 0;
       max-width: 980px;
@@ -386,15 +398,28 @@
       max-width: 980px;
       display:flex;
       flex-wrap: wrap;
-      gap: 12px 18px;
+      gap: 10px 16px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .authors-line{
+      width: 100%;
+      font-size: 18px;
+      font-weight: 600;
+      color: rgba(0,0,0,0.85);
+    }
+
+    .affil-row{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
       align-items: center;
       justify-content: center;
       color: rgba(0,0,0,0.78);
       font-size: 16px;
     }
-    .authors-row .affil-text{
-      font-size: 16px;
-    }
+
     .lab-logo-link{
       display:inline-flex;
       align-items:center;
@@ -412,7 +437,7 @@
       background: rgba(255,255,255,0.95);
     }
     .lab-logo{
-      height: 28px;          /* change size here */
+      height: 44px;          /* change size here */
       width: auto;
       display:block;
     }
@@ -432,12 +457,20 @@
 
       <!-- Authors + affiliation -->
       <div class="authors-row">
-        <div class="affil-text"><b>Canvas Lab</b>, Reichman University</div>
 
-        <!-- Lab logo (clickable) -->
-        <a class="lab-logo-link" href="https://canvas-lab.org/" target="_blank" rel="noopener" aria-label="Canvas Lab website">
-          <img class="lab-logo" src="assets/imgs/canvas_lab_logo.svg" alt="Canvas Lab logo">
-        </a>
+        <!-- AUTHORS (this is what you lost) -->
+        <div class="authors-line">
+          Rotem Gatenyo &nbsp;&nbsp;·&nbsp;&nbsp; Ohad Fried
+        </div>
+
+        <!-- AFFILIATION + LOGO -->
+        <div class="affil-row">
+          <div class="affil-text"><b>Canvas Lab</b>, Reichman University</div>
+
+          <a class="lab-logo-link" href="https://canvas-lab.org/" target="_blank" rel="noopener" aria-label="Canvas Lab website">
+            <img class="lab-logo" src="assets/imgs/canvas_lab_logo.svg" alt="Canvas Lab logo">
+          </a>
+        </div>
       </div>
 
 
@@ -447,14 +480,12 @@
         <a class="btn" href="https://github.com/RotemGat/CopyTransformPaste" target="_blank" rel="noopener">Code</a>
         <a class="btn" href="https://github.com/RotemGat/PairBench3D" target="_blank" rel="noopener">Benchmark</a>
       </div>
-    </header>
 
-      <!-- 2-sentence “what we did” -->
       <div class="tagline">
-        We tackle zero-shot alignment of two 3D meshes from a natural language prompt describing their spatial relation.
-        Our method directly optimizes relative pose and scale with differentiable rendering and VLM guidance, while enforcing contact and reducing interpenetration via geometric constraints.
+        We tackle <span class="emph">zero-shot alignment</span> of two 3D meshes from a natural-language prompt describing their spatial relation.
+        Our method optimizes relative pose and scale with differentiable rendering and VLM guidance, while enforcing contact and reducing interpenetration via geometric constraints.
       </div>
-
+    </header>
 
     <!-- TEASER -->
     <section class="card">
