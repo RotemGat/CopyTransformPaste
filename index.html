@@ -98,6 +98,54 @@
       border-color: rgba(0,0,0,0.16);
     }
 
+    /* Header extra meta */
+    .tagline{
+      margin: 14px auto 0;
+      max-width: 980px;
+      font-size: 16px;
+      line-height: 1.45;
+      color: rgba(0,0,0,0.70);
+    }
+    .authors{
+      margin: 10px auto 0;
+      max-width: 980px;
+      font-size: 16px;
+      color: rgba(0,0,0,0.78);
+    }
+    .authors a{
+      text-decoration: underline;
+      text-decoration-color: rgba(0,0,0,0.25);
+      text-underline-offset: 3px;
+    }
+    .affil{
+      margin: 4px auto 0;
+      font-size: 14px;
+      color: rgba(0,0,0,0.60);
+    }
+
+    /* Footer citation */
+    .cite-card{
+      margin-top: 34px;
+    }
+    .cite-title{
+      text-align:center;
+      margin: 0 0 10px;
+      font-family: "Space Grotesk", Inter, system-ui, sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+    pre.bibtex{
+      margin: 0;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.78);
+      overflow: auto;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+
     /* Centered section headers with gradient */
     .section-title{
       text-align: center;
@@ -204,7 +252,6 @@
       border: 1px solid rgba(0,0,0,0.10);
       background:#000;
     }
-
 
     /* Carousel shell */
     .carousel{
@@ -332,6 +379,44 @@
       color: rgba(0,0,0,0.40);
       font-size: 12px;
     }
+
+    /* Header: authors + lab logo link */
+    .authors-row{
+      margin: 12px auto 0;
+      max-width: 980px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 12px 18px;
+      align-items: center;
+      justify-content: center;
+      color: rgba(0,0,0,0.78);
+      font-size: 16px;
+    }
+    .authors-row .affil-text{
+      font-size: 16px;
+    }
+    .lab-logo-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 8px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.75);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+    }
+    .lab-logo-link:hover{
+      transform: translateY(-1px);
+      border-color: rgba(0,0,0,0.18);
+      background: rgba(255,255,255,0.95);
+    }
+    .lab-logo{
+      height: 28px;          /* change size here */
+      width: auto;
+      display:block;
+    }
+
   </style>
 </head>
 
@@ -340,16 +425,36 @@
   <main class="wrap">
     <header class="header">
       <h1 class="title"><span class="gradient-text">COPY-TRANSFORM-PASTE</span></h1>
+
       <div class="subtitle">
         Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints
       </div>
+
+      <!-- 2-sentence “what we did” -->
+      <div class="tagline">
+        We tackle zero-shot alignment of two 3D meshes from a natural language prompt describing their spatial relation.
+        Our method directly optimizes relative pose and scale with differentiable rendering and VLM guidance, while enforcing contact and reducing interpenetration via geometric constraints.
+      </div>
+
+      <!-- Authors + affiliation -->
+      <div class="authors-row">
+        <div class="affil-text"><b>Canvas Lab</b>, Reichman University</div>
+
+        <!-- Lab logo (clickable) -->
+        <a class="lab-logo-link" href="https://canvas-lab.org/" target="_blank" rel="noopener" aria-label="Canvas Lab website">
+          <img class="lab-logo" src="assets/imgs/canvas_lab.svg" alt="Canvas Lab logo">
+        </a>
+      </div>
+
 
       <div class="links">
         <a class="btn" href="https://arxiv.org/abs/XXXX.XXXXX" target="_blank" rel="noopener">arXiv</a>
         <a class="btn" href="assets/paper.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
         <a class="btn" href="https://github.com/RotemGat/ObjectsAlignment" target="_blank" rel="noopener">Code</a>
+        <a class="btn" href="https://github.com/RotemGat/PairBench3D" target="_blank" rel="noopener">Benchmark</a>
       </div>
     </header>
+
 
     <!-- TEASER -->
     <section class="card">
@@ -692,6 +797,16 @@
     </section>
 
     <div class="foot">© 2026 • COPY-TRANSFORM-PASTE</div>
+    <section class="card cite-card">
+      <h2 class="cite-title"><span class="gradient-text">Citation</span></h2>
+      <pre class="bibtex">@article{gatenyo2026copytransformpaste,
+      title   = {Copy-Transform-Paste: Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints},
+      author  = {Gatenyo, Rotem and Fried, Ohad},
+      journal = {arXiv preprint arXiv:XXXX.XXXXX},
+      year    = {2026}
+    }</pre>
+    </section>
+
   </main>
 
   <script>
