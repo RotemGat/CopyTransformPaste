@@ -2,13 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>COPY-TRANSFORM-PASTE</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Copy-Transform-Paste: Zero-Shot Object-Object Alignment</title>
 
-  <!-- Fonts -->
+  <!-- SEO / sharing -->
+  <meta name="description" content="Official project page for Copy-Transform-Paste (arXiv:2601.14207). Zero-shot object-object alignment guided by vision-language and geometric constraints." />
+  <meta name="keywords" content="3D alignment, object-object alignment, vision-language, CLIP, differentiable rendering, ICP, geometric constraints, PairBench3D, CVPR" />
+  <link rel="canonical" href="https://rotemgat.github.io/CopyTransformPaste/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Copy-Transform-Paste: Zero-Shot Object-Object Alignment" />
+  <meta property="og:description" content="Zero-shot alignment of two 3D meshes from a text prompt, using differentiable rendering + VLM guidance + geometric constraints." />
+  <meta property="og:url" content="https://rotemgat.github.io/CopyTransformPaste/" />
+  <meta property="og:image" content="https://rotemgat.github.io/CopyTransformPaste/assets/imgs/teaser.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Copy-Transform-Paste: Zero-Shot Object-Object Alignment" />
+  <meta name="twitter:description" content="Project page • arXiv:2601.14207 • Text-guided object-object alignment." />
+  <meta name="twitter:image" content="https://rotemgat.github.io/CopyTransformPaste/assets/imgs/teaser.png" />
+
+  <!-- Fonts (non render-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="preload"
+        as="style"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap"
+        onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+  </noscript>
 
   <style>
     :root{
@@ -40,6 +64,9 @@
         radial-gradient(900px 600px at 90% 0%, rgba(34, 211, 238, 0.14), transparent 60%),
         radial-gradient(900px 600px at 70% 95%, rgba(251, 146, 60, 0.10), transparent 65%),
         var(--bg);
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     a{ color: inherit; text-decoration: none; }
@@ -50,7 +77,7 @@
     }
 
     /* Header */
-    .header{ padding: 14px 0 26px; text-align: center; }  /* pushes teaser down */
+    .header{ padding: 14px 0 26px; text-align: center; }
     .title{
       font-family: "Space Grotesk", Inter, system-ui, sans-serif;
       font-size: 54px;
@@ -102,8 +129,8 @@
     .tagline{
       margin: 28px auto 0;
       max-width: 980px;
-      font-family: "Space Grotesk", Inter, system-ui, sans-serif; /* modern */
-      font-size: 22px;      /* BIG */
+      font-family: "Space Grotesk", Inter, system-ui, sans-serif;
+      font-size: 22px;
       line-height: 1.35;
       color: rgba(0,0,0,0.82);
     }
@@ -156,7 +183,6 @@
       font-size: 13px;
       line-height: 1.45;
     }
-
 
     /* Centered section headers with gradient */
     .section-title{
@@ -219,22 +245,26 @@
     }
     img{
       width: 100%;
+      height: auto;
       display:block;
       border: none;
       outline: none;
       box-shadow: none;
     }
 
-    /* --- ONLY CHANGE: make images have same fixed height inside .figure (keeps ref images aligned) --- */
-    .mesh-fig .figure,
-    .mesh-fig .figure img{
-      height: 170px;              /* pick a single height for ALL mesh/ref thumbnails */
+    /* Keep mesh/ref thumbs aligned, avoid CLS by reserving height */
+    .mesh-fig .figure{
+      height: 170px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
     .mesh-fig .figure img{
-      object-fit: contain;        /* preserves aspect ratio (no cropping), consistent height */
+      height: 170px;
+      width: 100%;
+      object-fit: contain;
       background: #fff;
     }
-    /* --- end only change --- */
 
     .caption{
       margin-top: 10px;
@@ -330,7 +360,7 @@
       to{ opacity: 1.0; transform: translateY(0px); }
     }
 
-    /* --- FIX: Optimization inline alignment --- */
+    /* Optimization inline alignment */
     .example-row{
       display:flex;
       flex-wrap:wrap;
@@ -382,7 +412,8 @@
       .title{ font-size: 40px; }
       .video-col{ max-width: none; }
       .section-title{ font-size: 24px; }
-      .mesh-fig .figure, .mesh-fig .figure img{ height: 160px; } /* responsive */
+      .mesh-fig .figure{ height: 160px; }
+      .mesh-fig .figure img{ height: 160px; }
     }
 
     .foot{
@@ -437,16 +468,14 @@
       background: rgba(255,255,255,0.95);
     }
     .lab-logo{
-      height: 44px;          /* change size here */
+      height: 44px;
       width: auto;
       display:block;
     }
-
   </style>
 </head>
 
 <body>
-  <!-- YOUR ORIGINAL HTML BODY (UNCHANGED) -->
   <main class="wrap">
     <header class="header">
       <h1 class="title"><span class="gradient-text">COPY-TRANSFORM-PASTE</span></h1>
@@ -455,28 +484,22 @@
         Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints
       </div>
 
-      <!-- Authors + affiliation -->
       <div class="authors-row">
-
-        <!-- AUTHORS (this is what you lost) -->
         <div class="authors-line">
           Rotem Gatenyo &nbsp;&nbsp;·&nbsp;&nbsp; Ohad Fried
         </div>
 
-        <!-- AFFILIATION + LOGO -->
         <div class="affil-row">
           <div class="affil-text"><b>Canvas Lab</b>, Reichman University</div>
 
           <a class="lab-logo-link" href="https://canvas-lab.org/" target="_blank" rel="noopener" aria-label="Canvas Lab website">
-            <img class="lab-logo" src="assets/imgs/logo.png" alt="Canvas Lab logo">
+            <img class="lab-logo" src="assets/imgs/logo.png" alt="Canvas Lab logo" width="220" height="44" loading="eager" decoding="async">
           </a>
         </div>
       </div>
 
-
       <div class="links">
         <a class="btn" href="https://arxiv.org/abs/2601.14207" target="_blank" rel="noopener">arXiv</a>
-        <!-- <a class="btn" href="assets/paper.pdf" target="_blank" rel="noopener">Paper (PDF)</a> -->
         <a class="btn" href="https://github.com/RotemGat/CopyTransformPaste" target="_blank" rel="noopener">Code</a>
         <a class="btn" href="https://github.com/RotemGat/PairBench3D" target="_blank" rel="noopener">Benchmark</a>
       </div>
@@ -490,7 +513,7 @@
     <!-- TEASER -->
     <section class="card">
       <div class="figure">
-        <img src="assets/imgs/teaser.png" alt="Teaser figure">
+        <img src="assets/imgs/teaser.png" alt="Teaser figure" width="1200" height="675" loading="eager" decoding="async" fetchpriority="high">
       </div>
       <div class="caption">
         <b>Text-guided object-object alignment and iterative composition.</b>
@@ -514,7 +537,7 @@
     <div class="section-title"><div class="pill"><span>Method Pipeline</span></div></div>
     <section class="card">
       <div class="figure">
-        <img src="assets/imgs/pipeline.png" alt="Method pipeline">
+        <img src="assets/imgs/pipeline.png" alt="Method pipeline" width="1200" height="675" loading="lazy" decoding="async">
       </div>
       <div class="caption">
         <b>Overview of the proposed pipeline.</b>
@@ -549,7 +572,7 @@
             <div class="video-col">
               <div class="video-label">&nbsp;</div>
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/oyster.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/oyster.mp4"></video>
               </div>
             </div>
           </div>
@@ -566,7 +589,7 @@
             <div class="video-col">
               <div class="video-label">&nbsp;</div>
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/hotdog.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/hotdog.mp4"></video>
               </div>
             </div>
           </div>
@@ -583,7 +606,7 @@
             <div class="video-col">
               <div class="video-label">&nbsp;</div>
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/necklace.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/necklace.mp4"></video>
               </div>
             </div>
           </div>
@@ -609,16 +632,16 @@
         <div class="slide active" data-title="&quot;A pizza cutter cuts a pizza&quot;">
           <div class="result-row">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/pizza_solo.png" alt="Pizza mesh"></div>
+              <div class="figure"><img src="assets/imgs/pizza_solo.png" alt="Pizza mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Pizza mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/pizza_cutter.png" alt="Pizza cutter mesh"></div>
+              <div class="figure"><img src="assets/imgs/pizza_cutter.png" alt="Pizza cutter mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Pizza cutter mesh</div>
             </div>
             <div class="orbit-col">
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/pizza.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/pizza.mp4"></video>
               </div>
             </div>
           </div>
@@ -627,16 +650,16 @@
         <div class="slide" data-title="&quot;Captain America holding a shield&quot;">
           <div class="result-row">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/captain_america.png" alt="Captain America mesh"></div>
+              <div class="figure"><img src="assets/imgs/captain_america.png" alt="Captain America mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Captain America mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/shield.png" alt="Shield mesh"></div>
+              <div class="figure"><img src="assets/imgs/shield.png" alt="Shield mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Shield mesh</div>
             </div>
             <div class="orbit-col">
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/captain_america.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/captain_america.mp4"></video>
               </div>
             </div>
           </div>
@@ -645,16 +668,16 @@
         <div class="slide" data-title="&quot;Nigiri&quot;">
           <div class="result-row">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/rice.png" alt="Rice mesh"></div>
+              <div class="figure"><img src="assets/imgs/rice.png" alt="Rice mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Rice mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/fish.png" alt="Fish mesh"></div>
+              <div class="figure"><img src="assets/imgs/fish.png" alt="Fish mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Fish mesh</div>
             </div>
             <div class="orbit-col">
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/nigiri.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/nigiri.mp4"></video>
               </div>
             </div>
           </div>
@@ -663,16 +686,16 @@
         <div class="slide" data-title="&quot;Slice of toast on top of a slice of cheese toast&quot;">
           <div class="result-row">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/toast_solo.png" alt="Toast mesh"></div>
+              <div class="figure"><img src="assets/imgs/toast_solo.png" alt="Toast mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Toast mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/toast_top_solo.png" alt="Cheese toast mesh"></div>
+              <div class="figure"><img src="assets/imgs/toast_top_solo.png" alt="Cheese toast mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Cheese toast mesh</div>
             </div>
             <div class="orbit-col">
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/toast2.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/toast2.mp4"></video>
               </div>
             </div>
           </div>
@@ -681,16 +704,16 @@
         <div class="slide" data-title="&quot;A target with an arrow stuck in it&quot;">
           <div class="result-row">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/target.png" alt="Target mesh"></div>
+              <div class="figure"><img src="assets/imgs/target.png" alt="Target mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Target mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/arrow.png" alt="Arrow mesh"></div>
+              <div class="figure"><img src="assets/imgs/arrow.png" alt="Arrow mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Arrow mesh</div>
             </div>
             <div class="orbit-col">
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/target.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/target.mp4"></video>
               </div>
             </div>
           </div>
@@ -717,20 +740,20 @@
         <div class="slide active" data-title="Axe and wood (image-guided)">
           <div class="result-row">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/axe.png" alt="Axe mesh"></div>
+              <div class="figure"><img src="assets/imgs/axe.png" alt="Axe mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Axe mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/wood.png" alt="Wood mesh"></div>
+              <div class="figure"><img src="assets/imgs/wood.png" alt="Wood mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Wood mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/axe_ref.jpg" alt="Reference image"></div>
+              <div class="figure"><img src="assets/imgs/axe_ref.jpg" alt="Reference image" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Reference image</div>
             </div>
             <div class="orbit-col">
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/axe.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/axe.mp4"></video>
               </div>
             </div>
           </div>
@@ -739,20 +762,20 @@
         <div class="slide" data-title="Sundae and cherry (image-guided)">
           <div class="result-row">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/sundae.png" alt="Sundae mesh"></div>
+              <div class="figure"><img src="assets/imgs/sundae.png" alt="Sundae mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Sundae mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/cherry.png" alt="Cherry mesh"></div>
+              <div class="figure"><img src="assets/imgs/cherry.png" alt="Cherry mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Cherry mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/sundae_ref.jpg" alt="Reference image"></div>
+              <div class="figure"><img src="assets/imgs/sundae_ref.jpg" alt="Reference image" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Reference image</div>
             </div>
             <div class="orbit-col">
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/sundae.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/sundae.mp4"></video>
               </div>
             </div>
           </div>
@@ -761,20 +784,20 @@
         <div class="slide" data-title="Paint can and paint brush (image-guided)">
           <div class="result-row">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/paint.png" alt="Paint can mesh"></div>
+              <div class="figure"><img src="assets/imgs/paint.png" alt="Paint can mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Paint can mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/paint_brush.png" alt="Paint brush mesh"></div>
+              <div class="figure"><img src="assets/imgs/paint_brush.png" alt="Paint brush mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Paint brush mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/paint_ref.jpg" alt="Reference image"></div>
+              <div class="figure"><img src="assets/imgs/paint_ref.jpg" alt="Reference image" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Reference image</div>
             </div>
             <div class="orbit-col">
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/paint.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/paint.mp4"></video>
               </div>
             </div>
           </div>
@@ -783,20 +806,20 @@
         <div class="slide" data-title="Coffee plate and coffee cup (image-guided)">
           <div class="result-row">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/plate.png" alt="Coffee plate mesh"></div>
+              <div class="figure"><img src="assets/imgs/plate.png" alt="Coffee plate mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Coffee plate mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/coffee_cup.png" alt="Coffee cup mesh"></div>
+              <div class="figure"><img src="assets/imgs/coffee_cup.png" alt="Coffee cup mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Coffee cup mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/coffee_cup_ref.jpg" alt="Reference image"></div>
+              <div class="figure"><img src="assets/imgs/coffee_cup_ref.jpg" alt="Reference image" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Reference image</div>
             </div>
             <div class="orbit-col">
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/coffee.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/coffee.mp4"></video>
               </div>
             </div>
           </div>
@@ -805,20 +828,20 @@
         <div class="slide" data-title="Cupcake and a candle (image-guided)">
           <div class="result-row">
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/cupcake.png" alt="Cupcake mesh"></div>
+              <div class="figure"><img src="assets/imgs/cupcake.png" alt="Cupcake mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Cupcake mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/candle.png" alt="Candle mesh"></div>
+              <div class="figure"><img src="assets/imgs/candle.png" alt="Candle mesh" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Candle mesh</div>
             </div>
             <div class="mesh-fig">
-              <div class="figure"><img src="assets/imgs/birthday_cupcake_ref.jpg" alt="Reference image"></div>
+              <div class="figure"><img src="assets/imgs/birthday_cupcake_ref.jpg" alt="Reference image" width="600" height="600" loading="lazy" decoding="async"></div>
               <div class="mesh-caption">Reference image</div>
             </div>
             <div class="orbit-col">
               <div class="video-wrapper">
-                <video autoplay muted loop playsinline preload="auto" src="assets/videos/cupcake.mp4"></video>
+                <video autoplay muted loop playsinline preload="none" src="assets/videos/cupcake.mp4"></video>
               </div>
             </div>
           </div>
@@ -840,7 +863,6 @@
     }</pre>
     </section>
     <div class="foot">© 2026 • COPY-TRANSFORM-PASTE</div>
-
   </main>
 
   <script>
@@ -924,6 +946,41 @@
       if (e.key === "ArrowLeft") target.show(target.getIndex() - 1);
       else target.show(target.getIndex() + 1);
     });
+
+    // Start all autoplay videos as "preload=none" (reduce render-blocking / bandwidth), then load+play only when visible.
+    // Keeps UX the same but removes a lot of initial network pressure.
+    (function optimizeAutoplayLoading(){
+      const vids = Array.from(document.querySelectorAll("video[autoplay]"));
+      for (const v of vids) {
+        try { v.preload = "none"; } catch(e) {}
+      }
+
+      function loadAndPlay(v){
+        if (!v || v.dataset._loaded === "1") return;
+        v.dataset._loaded = "1";
+        try { v.load(); } catch(e) {}
+        const p = v.play();
+        if (p && typeof p.catch === "function") p.catch(()=>{});
+      }
+
+      // Load the first visible slide's autoplay videos immediately (so the above-the-fold experience stays snappy)
+      const firstVisible = document.querySelector(".slide.active");
+      if (firstVisible) firstVisible.querySelectorAll("video[autoplay]").forEach(loadAndPlay);
+
+      // IntersectionObserver: load autoplay vids when they enter viewport
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver((entries) => {
+          for (const ent of entries) {
+            if (ent.isIntersecting) loadAndPlay(ent.target);
+          }
+        }, { root: null, threshold: 0.25 });
+
+        vids.forEach(v => io.observe(v));
+      } else {
+        // Fallback: just load them after the page is interactive
+        window.addEventListener("load", () => vids.forEach(loadAndPlay), { once: true });
+      }
+    })();
   </script>
 </body>
 </html>
