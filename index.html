@@ -238,10 +238,21 @@
 
     /* Figures + captions */
     .figure{
-      overflow:hidden;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;   /* reserve space immediately */
+      overflow: hidden;
       border-radius: 14px;
       border: 1px solid rgba(0,0,0,0.10);
       background: #fff;
+    }
+
+    .figure img{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
     img{
       width: 100%;
