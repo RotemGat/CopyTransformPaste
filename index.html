@@ -95,6 +95,37 @@
       background-clip: text;
       color: transparent;
     }
+
+    /* === CVPR 2026 badge (added) === */
+    .venue{
+      margin: 10px auto 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.78);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+      font-family: "Space Grotesk", Inter, system-ui, sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 32px;
+      line-height: 1;
+      color: rgba(0,0,0,0.78);
+    }
+    .venue span{
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    @media (max-width: 900px){
+      .venue{ font-size: 13px; padding: 7px 12px; }
+    }
+    /* === end CVPR 2026 badge === */
+
     .subtitle{
       margin: 10px auto 0;
       font-size: 18px;
@@ -476,6 +507,9 @@
   <main class="wrap">
     <header class="header">
       <h1 class="title"><span class="gradient-text">COPY-TRANSFORM-PASTE</span></h1>
+
+      <!-- CVPR 2026 (added, just below headline) -->
+      <div class="venue" aria-label="Venue"><span>CVPR 2026</span></div>
 
       <div class="subtitle">
         Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints
