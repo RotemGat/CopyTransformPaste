@@ -140,7 +140,7 @@ def get_config():
     parser = argparse.ArgumentParser()
 
     # ─── Config file & workspace ───────────────────────────────────────────────
-    parser.add_argument('--config', '-c', type=str, default='configs/PairBench3D/candle.yaml', help='Path to the YAML config file')
+    parser.add_argument('--config', '-c', type=str, default='configs/PairBench3D/hotdog.yaml', help='Path to the YAML config file')
     parser.add_argument('--workspace', '-w', type=str, default='workspace/', help='Output directory for logs, checkpoints, etc.')
 
     # ─── Mesh params ─────────────────────────────────────────────────────────────
