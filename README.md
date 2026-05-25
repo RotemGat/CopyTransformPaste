@@ -212,10 +212,12 @@ The validation script creates a clean environment, installs all required depende
 If you find this repository useful, please cite:
 
 ```bibtex
-@inproceedings{gatenyo2026copytransformpaste,
-  title={Copy-Transform-Paste: Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints},
-  author={Gatenyo, Rotem and Fried, Ohad},
-  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-  year={2026}
+@InProceedings{Gatenyo_2026_CVPR,
+    author    = {Gatenyo, Rotem and Fried, Ohad},
+    title     = {Copy-Transform-Paste: Zero-Shot Object-Object Alignment Guided by Vision-Language and Geometric Constraints},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2026},
+    pages     = {14936-14945}
 }
 ```
