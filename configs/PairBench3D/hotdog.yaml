@@ -1,0 +1,70 @@
+# ─── Workspace & I/O ─────────────────────────────────────────────────────────
+workspace: workspace/
+target_mesh:
+  path: data/3d_models/hotdog/bun
+  name: bun
+source_mesh:
+  path: data/3d_models/hotdog/hotdog
+  name: hotdog
+  init_pos_params:
+    translation: [-1.75, 2.0, 0]
+    rotation: [1, 0.3, 0.1, 0.3]
+ground_mesh: data/3d_models/floor
+ 
+auto_align: true
+
+# ─── Text prompts ────────────────────────────────────────────────────────────
+text_prompt: "A Hotdog inside a bun"
+
+# ─── Evaluation & logging ──────────────────────────────────────────────────
+eval_interval: 10
+log_interval: 5
+log_interval_im: 150
+log_elev: 30.0
+log_fov: 60.0
+log_dist: 3.5
+log_res: 512
+log_light_power: 6.0
+
+# ─── Guidance / CLIP settings ───────────────────────────────────────────────
+guidance: clip
+clip_model: ViT-B/32
+consistency_clip_model: ViT-B/32
+
+# ─── Random seed & device ───────────────────────────────────────────────────
+seed: 99
+device: cuda
+local_index: 0  
+
+# ─── Training hyperparameters ──────────────────────────────────────────────
+epochs: 2000
+batch_size: 8
+translation_lr: 0.05
+rotation_lr: 0.05
+scaling_lr: 0.0
+use_fp16: false
+
+intersection_loss_w: [1.0, 10.0]
+icp_loss_w: [1.0, 1.0]
+allowable_pen: 0.002
+icp_ratio: 0.95
+
+# ─── Rendering settings ─────────────────────────────────────────────────────
+bsdf: diffuse 
+train_res: 512
+resize_method: cubic
+
+# ─── Camera sampling ranges ────────────────────────────────────────────────
+fov_min: 30.0
+fov_max: 90.0
+dist_min: 3.0
+dist_max: 3.5
+light_power: 6.0
+elev_alpha: 1.0
+elev_beta: 5.0
+elev_min: 20.0
+elev_max: 50.0
+azim_min: 0.0
+azim_max: 360.0
+aug_loc: false
+adapt_dist: false

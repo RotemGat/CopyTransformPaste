@@ -1,0 +1,79 @@
+alignment_ratio: |
+  <|image|>
+  You are given a rendered image showing two meshes: object1 = "{object1}" and object2 = "{object2}" before applying the desired alignment.
+  The image is given so you can see the objects structure and infer the answer from that.
+
+  The goal is to apply translation, rotation, and scaling to "{object1}" such that it will achieve the following alignment:
+
+  **Desired alignment:** "{wanted_alignment}"
+
+  Now, answer the following question, regarding the desired alignment (not the current one!):
+
+  Classify how much {object1} is physically in contact with {object2} in the desired final alignment. Choose one of the following categories:
+
+  - Fully aligned – nearly all of {object1}'s surface touches {object2}
+    (e.g. a ring on a finger, almost all of the rings directly interact the finger)
+  - Almost fully aligned – most of {object1} touches {object2}
+    (e.g. a hat on a man''s head)
+  - Half aligned – about 50% of {object1} is in contact with {object2}
+    (e.g. a pillow on a mattress)
+  - Almost not aligned – only a small part of {object1} touches {object2}
+    (e.g. a candle on top of a candle holder - only the bottom of the candle touches the candle holder)
+  - Not aligned – little or no physical contact between {object1} and {object2}
+    (e.g. a flower in a vase - the flower almost do not have direct interaction with the vase)
+
+  Rules:
+   - Just respond with **one** of these strings (`fully aligned` / `almost fully aligned` / `half aligned` / `almost not aligned` / `not aligned`).
+     Do not explain, do not write code, do not repeat the question.
+  - Base your answer **only** on the structure of the objects and the desired alignment.
+  - The alignment is based on the interaction of the *entire* object1 against object2 (do not consider only the parts that interact!).
+
+  What is the answer?
+
+prior_scale_general: |
+  Estimate the relative scale so object1="{object1}" and object2="{object2}" fit naturally in the desired alignment "{wanted_alignment}".
+  Define size_ratio = bbox_size(object1) / bbox_size(object2), where bbox_size is the overall 3D bounding-box size (not just height).
+
+  Examples:
+  - "nigiri rice" + "nigiri fish" → size_ratio ≈ 1.0
+  - "boxing glove" + "punching bag" → size_ratio = 0.5
+  - "candle" + "candle holder" → size_ratio ≈ 1.0 
+  - "hat" + "human head" → size_ratio ≈ 0.25 
+
+  Output EXACTLY ONE JSON object on ONE line:
+  {{"size_ratio": <float 0.1..10>}}
+
+penetration_check: |
+  Decide whether achieving alignment "{wanted_alignment}" between "{object1}" and "{object2}" REQUIRES solid-to-solid penetration 
+  (cutting through solid material). Insertion through a natural opening is NOT penetration.
+
+  Examples:
+  - "knife slicing bread": cutting → penetration=true
+  - "lid on pot": contact only → penetration=false
+
+  Output EXACTLY ONE JSON object on ONE line:
+  {{"penetration": <true|false>}}
+
+contact_ratio: |
+  For the desired final alignment "{wanted_alignment}" between object1="{object1}" and object2="{object2}",
+  estimate the expected fraction of {object1}'s surface that should be in direct physical contact with {object2}
+  once the scene is correctly arranged.
+
+  Define contact_ratio ∈ [0,1]:
+    0 → almost no contact (barely touching, unstable)
+    1 → extensive area contact (fully resting or enclosing)
+
+  Consider:
+   - real-world geometry and function (how the objects interact physically)
+   - how much contact is required for a stable configuration
+   - ignore textures and fine detail; reason from typical shapes and sizes
+
+  Examples:
+   - hat on head → 0.6–0.8  (broad supporting contact)
+   - cup on saucer → 0.2–0.3  (only base contact)
+   - lid half-open on pot → 0.3–0.5  (partial edge contact)
+   - candle on holder edge → 0.1–0.2  (small bottom contact)
+   - knife cutting apple → 0.2–0.4  (localized penetration contact)
+
+  Output EXACTLY ONE JSON object on ONE line:
+  {{"contact_ratio": <float 0..1>}}
